@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Repository;
+
+use App\Interface\PembinaanInterface;
+use App\Models\Agenda;
+use App\Models\Pembinaan;
+use Exception;
+use Illuminate\Support\Facades\DB;
+
+class PembinaanRepositoryInterface implements PembinaanInterface {
+
+    public function getAll(?string $search, ?int $limit, bool $execute){
+
+        $query = Pembinaan::where(function($query) use ($search){
+
+            if($search){
+                $query->search($search);
+            }
+        });
+
+        $query->orderByDesc('dateCreated');
+        if($limit){
+            $query->take($limit);
+        }
+
+        if($execute){
+            return $query->get();
+        }
+
+        return $query;
+    }
+
+    public function getAllPaginate(?string $search, ?int $rowPerPage){
+
+        $query = $this->getAll($search, $rowPerPage, false);
+
+        return  $query->paginate($rowPerPage);
+
+    }
+
+
+    public function create(array $data){
+
+        DB::beginTransaction();
+
+        try{
+
+            $pembinaan = new Pembinaan();
+            $pembinaan->namaPerusahaan = $data['namaPerusahaan'];
+            $pembinaan->alamatPerusahaan = $data['alamatPerusahaan'];
+            $pembinaan->noTelpHp = $data['noTelpHp'];
+            $pembinaan->namaPeserta = $data['namaPeserta'];
+            $pembinaan->agendaPembinaanId = $data['agendaPembinaanId'];
+            $pembinaan->tglPembinaan = $data['tglPembinaan'];
+            $pembinaan->hasilPembinaan = 0; //default 0
+            $pembinaan->dateCreated = now();
+
+
+            $pembinaan->save();
+
+            DB::commit();
+
+            return $pembinaan;
+        }catch(Exception $exception){
+
+            DB::rollBack();
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+    public function getById(int $id){
+
+        $pembinaan = Pembinaan::where('id', $id)->first();
+        return $pembinaan;
+    }
+
+    public function delete(int $id){
+
+        DB::beginTransaction();
+
+        try{
+
+            $pembinaan = Pembinaan::find($id);
+
+            $pembinaan->delete();
+            DB::commit();
+            return $pembinaan;
+
+        }catch(Exception $exception){
+
+            DB::rollBack();
+            throw new Exception($exception->getMessage());
+        }
+    }
+}

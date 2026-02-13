@@ -1,0 +1,40 @@
+  // 1. Inisialisasi Peta (Default ke Jakarta atau lokasi tertentu)
+        var center = [-6.200000, 106.816666];
+        var map = L.map('map').setView(center, 13);
+
+        // 2. Tambahkan Layer Peta (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 3. Tambahkan Marker yang bisa ditarik
+        var marker = L.marker(center, { draggable: true }).addTo(map);
+        var circle = L.circle(center, { radius: 100 }).addTo(map); // Visualisasi Radius
+
+        // Fungsi untuk update input form
+        function updateInputs(lat, lng) {
+            document.getElementById('latitude').value = lat.toFixed(8);
+            document.getElementById('longitude').value = lng.toFixed(8);
+        }
+
+        // Event saat marker digeser
+        marker.on('dragend', function (e) {
+            var coords = e.target.getLatLng();
+            updateInputs(coords.lat, coords.lng);
+            circle.setLatLng(coords);
+        });
+
+        // Event saat peta diklik (pindahkan marker)
+        map.on('click', function (e) {
+            marker.setLatLng(e.latlng);
+            circle.setLatLng(e.latlng);
+            updateInputs(e.latlng.lat, e.latlng.lng);
+        });
+
+        // Event saat radius diubah di form
+        document.getElementById('radius').addEventListener('input', function (e) {
+            circle.setRadius(e.target.value);
+        });
+
+        // Isi input awal
+        updateInputs(center[0], center[1]);
