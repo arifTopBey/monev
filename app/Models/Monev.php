@@ -13,7 +13,7 @@ class Monev extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_bap';
 
     /**
      * The "type" of the primary key ID.

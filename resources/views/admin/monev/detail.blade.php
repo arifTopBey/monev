@@ -7,8 +7,8 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="fw-bold">Monev BAP Senin, 26 Januari 2026</h4>
         <div>
-            <button class="btn btn-success btn-sm">+ Money List</button>
-            <button class="btn btn-primary btn-sm">+ Tambah Money Singkat</button>
+            <a href="{{ route('monev') }}" class="btn btn-success btn-sm">+ Money List</a>
+            <a href="{{ route('monev.create') }}" class="btn btn-primary btn-sm">+ Tambah Money Singkat</a>
         </div>
     </div>
 
@@ -16,26 +16,26 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <strong>I. Keterangan Umum</strong>
-            <button class="btn btn-warning btn-sm">Edit</button>
+            <a href="{{ route('admin.monev.umum', ['id_bap' => $monev->id_bap]) }}" class="btn btn-warning btn-sm">Edit</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered align-middle">
                     <tr>
                         <th width="30%">Nama Penerima Tim Monev</th>
-                        <td>Ibu Sulistiawati</td>
+                        <td>{{ $monev->nama_penerima }}</td>
                     </tr>
                     <tr>
                         <th>Jabatan Dalam Perusahaan</th>
-                        <td>Staff</td>
+                        <td>{{ $monev->jabatan }}</td>
                     </tr>
                     <tr>
                         <th>Alamat Perusahaan</th>
-                        <td>Jl. Raya Otonom Cikupa No.46, Talagasari, Kec. Cikupa, Kabupaten Tangerang, Banten 15710</td>
+                        <td>J{{ $monev->alamat_perusahaan }}</td>
                     </tr>
                     <tr>
                         <th>Nomor Telepon & Handphone</th>
-                        <td>085780399736</td>
+                        <td>{{ $monev->no_telp }}</td>
                     </tr>
                 </table>
             </div>
@@ -46,50 +46,50 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <strong>II. Keterangan Perusahaan</strong>
-            <button class="btn btn-warning btn-sm">Edit</button>
+            <a href="{{ route('admin.monev.perusahaan', ['id_bap' => $monev->id_bap]) }}" class="btn btn-warning btn-sm">Edit</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered align-middle">
                     <tr>
                         <th width="30%">Nama Perusahaan</th>
-                        <td>PT. TRIMITRA SWADAYA</td>
+                        <td>{{ $monev->nama_perusahaan }}</td>
                     </tr>
                     <tr>
                         <th>Bidang Usaha</th>
-                        <td>Industri Barang Plastik Lembaran</td>
+                        <td>{{ $monev->bidang_usaha }}</td>
                     </tr>
                     <tr>
                         <th>Status</th>
-                        <td><span class="badge bg-primary">PMDN</span></td>
+                        <td><span class="badge bg-primary">{{ $monev->status }}</span></td>
                     </tr>
                     <tr>
                         <th>NPWP</th>
-                        <td>00.199.275.4-002.7000</td>
+                        <td>{{ $monev->npwp }}</td>
                     </tr>
                     <tr>
                         <th>Nama Pimpinan Perusahaan</th>
-                        <td>THONG ERNA</td>
+                        <td>{{ $monev->nama_pemimpin_perusahaan }}</td>
                     </tr>
                     <tr>
                         <th>Nilai Investasi</th>
-                        <td>Rp 10.242.000.000</td>
+                        <td>{{ $monev->nilai_investasi }}</td>
                     </tr>
                     <tr>
                         <th>Jumlah Tenaga Kerja Asing</th>
-                        <td>0</td>
+                        <td>{{ $monev->jumlah_tenaga_kerja_asing }}</td>
                     </tr>
                     <tr>
                         <th>Jumlah Tenaga Kerja Indonesia</th>
-                        <td>87</td>
+                        <td>{{ $monev->jumlah_tenaga_kerja_indonesia }}</td>
                     </tr>
                     <tr>
                         <th>Aspek Lingkungan</th>
-                        <td><span class="badge bg-success">Ada</span></td>
+                        <td><span class="badge bg-success">{{ $monev->aspek_lingkungan }}</span></td>
                     </tr>
                     <tr>
                         <th>Kelengkapan Legalitas</th>
-                        <td><span class="badge bg-success">Ada</span></td>
+                        <td><span class="badge bg-success">{{ $monev->kelengkapan_legalitas }}</span></td>
                     </tr>
                 </table>
             </div>
@@ -100,15 +100,15 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <strong>III. Hasil & Kesimpulan</strong>
-            <button class="btn btn-warning btn-sm">Edit</button>
+            <a href="{{ route('admin.monev.kesimpulan', ['id_bap' => $monev->id_bap]) }}" class="btn btn-warning btn-sm">Edit</a>
         </div>
         <div class="card-body">
             <p><strong>Hasil Pemeriksaan:</strong><br>
-            PT. Care Spunbond saat ini sudah merger dengan PT. Trimitra Swadaya sehingga NIB dan Perizinan menjadi atas nama PT. Trimitra Swadaya sebagai entitas terbaru sudah melaporkan LKPM Triwulan 4.
+            {{ $monev->hasil_pemeriksaan }}
             </p>
 
             <p><strong>Kesimpulan dan Saran:</strong><br>
-            Melakukan pembaharuan dan mencetak NIB terupdate yang sudah ada di lokasi PT di Kabupaten Tangerang.
+            {{ $monev->kesimpulan_saran }}
             </p>
         </div>
     </div>

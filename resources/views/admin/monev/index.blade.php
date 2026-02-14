@@ -81,7 +81,7 @@
                                 <td>{{ $monev->nama_perusahaan }}</td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <a href="{{ route('admin.monev.detail', $monev->$id) }}" class="btn btn-info">👁️</a>
+                                        <a href="{{ route('admin.monev.detail', $monev->id_bap) }}" class="btn btn-info">👁️</a>
                                         <a href="" class="btn btn-danger">🗑</a>
                                         <a href="" class="btn btn-info">📇</a>
                                     </div>

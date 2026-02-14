@@ -38,7 +38,13 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::get('/monev', [MonevApiController::class, 'index'])->name('monev.list');
     Route::get('/monev/paginasi', [MonevApiController::class, 'getAllPaginate'])->name('api.monev.paginate');
-
+    Route::get('/monev/{id_bap}', [MonevApiController::class, 'show'])->name('api.monev.show');
+    Route::get('/monev/edit-keterangan-umum/{id_bap}', [MonevApiController::class, 'showKeteranganUmum'])->name('api.monev.umum');
+    Route::put('/monev/update-keterangan-umum/{id_bap}', [MonevApiController::class, 'updateKeteranganUmum'])->name('api.monev.update.umum');
+    Route::get('/monev/edit-keterangan-perusahaan/{id_bap}', [MonevApiController::class, 'showKeteranganPerusahaan'])->name('api.monev.perusahaan');
+    Route::put('/monev/update-keterangan-perusahaan/{id_bap}', [MonevApiController::class, 'updateKeteranganPerusahaan'])->name('api.monev.update.keterangan.perusahaan');
+    Route::get('/monev/edit-hasil-kesimpulan/{id_bap}', [MonevApiController::class, 'showHasilKesimpulan'])->name('api.monev.kesimpulan');  
+    Route::put('/monev/update-hasil-kesimpulan/{id_bap}', [MonevApiController::class, 'updateKesimpulan'])->name('api.monev.update.hasil.kesimpulan');
 
     Route::get('/agenda', [AgendaApiController::class, 'index'])->name('api.agenda.list');
     Route::post('/agenda/create', [AgendaApiController::class, 'store'])->name('api.agenda.create');

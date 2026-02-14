@@ -9,10 +9,10 @@
                     <i class="bi bi-pencil-square"></i> Edit Monev
                 </h5>
                 <div>
-                    <a href="#" class="btn btn-success btn-sm">
+                    <a href="{{ route('monev') }}" class="btn btn-success btn-sm">
                         <i class="bi bi-list"></i> Monev List
                     </a>
-                    <a href="#" class="btn btn-success btn-sm">
+                    <a href="{{ route('monev.create') }}" class="btn btn-success btn-sm">
                         <i class="bi bi-plus"></i> Tambah Monev
                     </a>
                 </div>
@@ -20,56 +20,58 @@
 
             <div class="card-body">
 
-                <form action="#" method="POST">
+                <form action="{{ route('admin.monev.update.keterangan.perusahaan', $monev->id_bap) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
                     <!-- Tanggal -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Nama Perusahaan</label>
-                        <input type="date" class="form-control" name="tanggal_bap" value="2026-01-26">
+                        <input type="text" class="form-control" name="nama_perusahaan" value="{{ $monev->nama_perusahaan }}">
                     </div>
 
                     <!-- Nama -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Bidang Usaha</label>
-                        <input type="text" class="form-control" name="nama_penerima" value="Ibu Sulistiawati">
+                        <input type="text" class="form-control" name="bidang_usaha" value="{{ $monev->bidang_usaha }}">
                     </div>
 
                     <!-- Jabatan -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Status</label>
-                        <input type="text" class="form-control" name="jabatan" value="Staff">
+                        <input type="text" class="form-control" name="status" value="{{ $monev->status }}">
                     </div>
 
                     <!-- Alamat -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">NPWP</label>
-                        <textarea class="form-control" rows="3" name="alamat">Jl. Raya Otonom Cikupa No.46, Talagasari, Kec. Cikupa, Kabupaten Tangerang, Banten 15710</textarea>
+                        <input type="text" class="form-control" name="npwp" value="{{ $monev->npwp }}">
                     </div>
 
                     <!-- No Telp -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Nama Pimpinan Perusahaan</label>
-                        <input type="text" class="form-control" name="no_telp" value="085780399736">
+                        <input type="text" class="form-control" name="nama_pemimpin_perusahaan" value="{{ $monev->nama_pemimpin_perusahaan }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Nilai Investasi</label>
-                        <input type="text" class="form-control" name="no_telp" value="085780399736">
+                        <input type="text" class="form-control" name="nilai_investasi" value="{{ $monev->nilai_investasi }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Jumlah Tenaga Kerja Asing</label>
-                        <input type="text" class="form-control" name="no_telp" value="085780399736">
+                        <input type="text" class="form-control" name="jumlah_tenaga_kerja_asing" value="{{ $monev->jumlah_tenaga_kerja_asing }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Jumlah Tenaga Kerja Indonesia</label>
-                        <input type="text" class="form-control" name="no_telp" value="085780399736">
+                        <input type="text" class="form-control" name="jumlah_tenaga_kerja_indonesia" value="{{ $monev->jumlah_tenaga_kerja_indonesia }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Aspek Lingkungan</label>
-                        <input type="text" class="form-control" name="no_telp" value="085780399736">
+                        <input type="text" class="form-control" name="aspek_lingkungan" value="{{ $monev->aspek_lingkungan }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Kelengkapan Legalitas</label>
-                        <input type="text" class="form-control" name="no_telp" value="085780399736">
+                        <input type="text" class="form-control" name="kelengkapan_legalitas" value="{{ $monev->kelengkapan_legalitas }}">
                     </div>
 
                     <!-- Button -->

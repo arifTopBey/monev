@@ -26,6 +26,7 @@
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="{{ asset('css/adminlte.css') }}" />
+    
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link
@@ -74,6 +75,21 @@
         border-radius: 8px;
         margin-bottom: 20px;
     }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+        display: block !important;
+        opacity: 1 !important;
+        cursor: pointer !important;
+        /* Opsional: memastikan ikon tidak tertutup */
+        position: absolute;
+        right: 15px;
+    }
+
+    /* Memastikan input memiliki ruang untuk absolute position */
+    input[type="date"] {
+        position: relative;
+    }
+
     </style>
   </head>
   <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">

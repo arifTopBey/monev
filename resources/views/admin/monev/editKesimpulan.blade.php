@@ -9,10 +9,10 @@
                     <i class="bi bi-pencil-square"></i> Edit Monev
                 </h5>
                 <div>
-                    <a href="#" class="btn btn-success btn-sm">
+                    <a href="{{ route('monev') }}" class="btn btn-success btn-sm">
                         <i class="bi bi-list"></i> Monev List
                     </a>
-                    <a href="#" class="btn btn-success btn-sm">
+                    <a href="{{ route('monev.create') }}" class="btn btn-success btn-sm">
                         <i class="bi bi-plus"></i> Tambah Monev
                     </a>
                 </div>
@@ -20,24 +20,24 @@
 
             <div class="card-body">
 
-                <form action="#" method="POST">
-
+                <form  action="{{ route('admin.monev.update.hasil.kesimpulan', $monev->id_bap) }}" method="POST">
+                    @csrf
+                    @method('PUT')
                     <!-- Tanggal -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Hasil Pemeriksaan</label>
-                        <input type="date" class="form-control" name="tanggal_bap" value="2026-01-26">
+                        <textarea class="form-control" name="hasil_pemeriksaan" rows="5">{{ $monev->hasil_pemeriksaan }}</textarea>
                     </div>
 
                     <!-- Nama -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Hasil Kesimpulan dan Saran</label>
-                        <input type="text" class="form-control" name="nama_penerima" value="Ibu Sulistiawati">
+                        <textarea class="form-control" name="kesimpulan_saran" rows="5">{{ $monev->kesimpulan_saran }}</textarea>
                     </div>
 
 
-
                     <!-- Button -->
-                    <div class="text-end">
+                    <div class="text-end mt-3">
                         <button type="submit" class="btn btn-primary px-4">
                             Update Monev
                         </button>
