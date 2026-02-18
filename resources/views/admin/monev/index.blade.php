@@ -82,7 +82,18 @@
                                 <td>
                                     <div class="d-flex gap-1">
                                         <a href="{{ route('admin.monev.detail', $monev->id_bap) }}" class="btn btn-info">👁️</a>
-                                        <a href="" class="btn btn-danger">🗑</a>
+                                        <form id="delete-form-{{ $monev->id_bap }}"
+                                             action="{{ route('admin.monev.destroy', $monev->id_bap) }}"
+                                             method="post">
+                                             @csrf
+                                             @method('delete')
+                                             <button
+                                                 onclick="confirmDelete('{{ $monev->id_bap }}', '{{ $monev->nama_perusahaan }}')"
+                                                 type="button" class="btn btn-sm btn-danger">
+                                                 🗑
+                                             </button>
+                                         </form>
+                                        {{-- <a href="" class="btn btn-danger">🗑</a> --}}
                                         <a href="" class="btn btn-info">📇</a>
                                     </div>
                                 </td>

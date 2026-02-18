@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/monev', [MonevController::class, 'index'])->name('monev');
     Route::get('/monev/detail/{id_bap}',[MonevController::class, 'show'])->name('admin.monev.detail');
-    
+
     Route::get('/monev/edit-keterangan-umum/{id_bap}', [MonevController::class, 'showKeteranganUmum'])->name('admin.monev.umum');
     Route::put('/monev/update-keterangan-umum/{id_bap}', [MonevController::class, 'updateKeteranganUmum'])->name('admin.monev.update.umum');
 
@@ -46,13 +46,18 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/monev/edit-hasil-kesimpulan/{id_bap}', [MonevController::class, 'showHasilKesimpulan'])->name('admin.monev.kesimpulan');
     Route::put('/monev/update-hasil-kesimpulan/{id_bap}', [MonevController::class, 'updateKesimpulan'])->name('admin.monev.update.hasil.kesimpulan');
 
-    // Route::get('/monev/edit-hasil-kesimpulan', [MonevController::class, 'showHasilKesimpulan'])->name('admin.monev.kesimpulan');
 
-    Route::get('/monev/edit-foto', [MonevController::class, 'showHasilFoto'])->name('admin.monev.edit.foto');
+    Route::get('/monev/edit-foto/{id_bap}', [MonevController::class, 'showHasilFoto'])->name('admin.monev.edit.foto');
+    Route::put('/monev/update-foto/{id_bap}', [MonevController::class, 'updateFoto'])->name('admin.monev.update.foto');
+
     Route::get('/monev/create', [MonevController::class, 'create'])->name('monev.create');
     Route::post('/monev/store', [MonevController::class, 'store'])->name('admin.monev.store');
+    Route::delete('/monev/delete/{id_bap}', [MonevController::class, 'destroy'])->name('admin.monev.destroy');
 
     Route::get('/realisasi-pembinaan', [RealisasiPembinaanController::class, 'index'])->name('realisasi.pembinaan.index');
+
+    // gambar
+    Route::get('/storage/private/{path}', [MonevController::class, 'showFoto'])->where('path', '.*')->name('showFoto.private');
 
     // public function showHasilKesimpulan(){
 

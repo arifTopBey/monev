@@ -18,4 +18,8 @@ interface MonevInterface {
 
     public function updateHasilKesimpulan($id_bap, array $data);
 
+    public function updateFoto($id_bap, array $data);
+
+    public function delete($id_bap);
+
 }

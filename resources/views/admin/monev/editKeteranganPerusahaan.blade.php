@@ -59,11 +59,11 @@
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Jumlah Tenaga Kerja Asing</label>
-                        <input type="text" class="form-control" name="jumlah_tenaga_kerja_asing" value="{{ $monev->jumlah_tenaga_kerja_asing }}">
+                        <input type="number" class="form-control" name="jumlah_tenaga_kerja_asing" value="{{ $monev->jumlah_tenaga_kerja_asing }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Jumlah Tenaga Kerja Indonesia</label>
-                        <input type="text" class="form-control" name="jumlah_tenaga_kerja_indonesia" value="{{ $monev->jumlah_tenaga_kerja_indonesia }}">
+                        <input type="number" class="form-control" name="jumlah_tenaga_kerja_indonesia" value="{{ $monev->jumlah_tenaga_kerja_indonesia }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Aspek Lingkungan</label>

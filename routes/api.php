@@ -16,6 +16,7 @@ use App\Http\Controllers\api\TenagaKerjaApiController;
 use App\Http\Controllers\api\TimMonitoringApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -39,12 +40,27 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/monev', [MonevApiController::class, 'index'])->name('monev.list');
     Route::get('/monev/paginasi', [MonevApiController::class, 'getAllPaginate'])->name('api.monev.paginate');
     Route::get('/monev/{id_bap}', [MonevApiController::class, 'show'])->name('api.monev.show');
+
     Route::get('/monev/edit-keterangan-umum/{id_bap}', [MonevApiController::class, 'showKeteranganUmum'])->name('api.monev.umum');
     Route::put('/monev/update-keterangan-umum/{id_bap}', [MonevApiController::class, 'updateKeteranganUmum'])->name('api.monev.update.umum');
+
     Route::get('/monev/edit-keterangan-perusahaan/{id_bap}', [MonevApiController::class, 'showKeteranganPerusahaan'])->name('api.monev.perusahaan');
     Route::put('/monev/update-keterangan-perusahaan/{id_bap}', [MonevApiController::class, 'updateKeteranganPerusahaan'])->name('api.monev.update.keterangan.perusahaan');
-    Route::get('/monev/edit-hasil-kesimpulan/{id_bap}', [MonevApiController::class, 'showHasilKesimpulan'])->name('api.monev.kesimpulan');  
-    Route::put('/monev/update-hasil-kesimpulan/{id_bap}', [MonevApiController::class, 'updateKesimpulan'])->name('api.monev.update.hasil.kesimpulan');
+
+    Route::get('/monev/edit-hasil-kesimpulan/{id_bap}', [MonevApiController::class, 'showHasilKesimpulan'])->name('api.monev.kesimpulan');
+    Route::put('/monev/update-hasil-kesimpulan/{id_bap}', [MonevApiController::class, 'updateHasilKesimpulan'])->name('api.monev.update.hasil.kesimpulan');
+
+    Route::get('/monev/edit-foto/{id_bap}', [MonevApiController::class, 'showEditFoto'])->name('api.monev.foto');
+    Route::put('/monev/update-foto/{id_bap}', [MonevApiController::class, 'updateFoto'])->name('api.monev.update.foto');
+
+    // foto private
+    Route::get('/v1/foto/{path}', function ($path) {
+
+        if (!Storage::disk('local')->exists($path)) {
+            return response()->json(['message' => 'File tidak ditemukan'], 404);
+        }
+        return Storage::disk('local')->response($path);
+    })->where('path', '.*');
 
     Route::get('/agenda', [AgendaApiController::class, 'index'])->name('api.agenda.list');
     Route::post('/agenda/create', [AgendaApiController::class, 'store'])->name('api.agenda.create');

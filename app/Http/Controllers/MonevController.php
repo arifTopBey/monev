@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\api\MonevApiStoreRequest;
+use App\Http\Requests\api\MonevUpdateFotoApiRequest;
 use App\Http\Requests\api\UpdateKesimpulanRequest;
 use App\Http\Requests\api\UpdateKeteranganPerusahaanRequest;
 use App\Http\Requests\api\UpdateMonevUmumRequest;
 use App\Interface\MonevInterface;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MonevController extends Controller
 {
@@ -53,7 +55,7 @@ class MonevController extends Controller
          }catch(Exception $exception){
                 return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $exception->getMessage()]);
          }
-         
+
     }
 
     public function show($id_bap){
@@ -83,7 +85,7 @@ class MonevController extends Controller
     }
 
     public function updateKeteranganUmum(UpdateMonevUmumRequest $request, $id_bap){
-    
+
         $validated = $request->validated();
 
         try{
@@ -143,7 +145,7 @@ class MonevController extends Controller
         if(!$monev){
             return redirect()->route('monev')->withErrors(['error' => 'Data tidak ditemukan']);
         }
-        
+
         return view('admin.monev.editKesimpulan', compact('monev'));
     }
 
@@ -169,8 +171,64 @@ class MonevController extends Controller
 
     }
 
-    public function showHasilFoto(){
-        return view('admin.monev.EditFotoLokasi');
+
+
+    public function showHasilFoto($id_bap){
+
+        $monev = $this->monevInterface->getById($id_bap);
+
+        if(!$monev){
+            return redirect()->route('monev')->withErrors(['error' => 'Data tidak ditemukan']);
+        }
+
+        return view('admin.monev.EditFotoLokasi', compact('monev'));
+    }
+
+    public function updateFoto( MonevUpdateFotoApiRequest $request, $id_bap,){
+
+         $validated = $request->validated();
+
+        try{
+
+            $monev = $this->monevInterface->getById($id_bap);
+
+            if(!$monev){
+                return redirect()->route('admin.monev.detail', ['id_bap' => $id_bap])->withErrors(['error' => 'Data tidak ditemukan']);
+            }
+
+            $this->monevInterface->updateFoto($id_bap, $validated);
+
+            return redirect()->route('admin.monev.detail', ['id_bap' => $id_bap])->with('success', 'Data berhasil diperbarui');
+
+         }catch(Exception $exception){
+                return back()->withErrors(['error' => 'Gagal memperbarui data: ' . $exception->getMessage()]);
+         }
+
+    }
+
+      public function destroy( $id_bap){
+
+        try{
+            $this->monevInterface->delete($id_bap);
+            return redirect()->route('monev')->with('success', value: 'Data berhasil dihapus');
+        }catch(Exception $exception){
+
+            return back()->withErrors(['error' => 'Gagal menghapus data: ' . $exception->getMessage()]);
+
+        }
+    }
+
+
+
+    // foto private
+    public function showFoto($path){
+
+        if (!Storage::disk('local')->exists($path)) {
+            abort(404);
+        }
+
+        // Mengembalikan file sebagai response gambar
+        return Storage::disk('local')->response($path);
     }
 
 

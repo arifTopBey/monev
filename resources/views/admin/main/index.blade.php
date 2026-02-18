@@ -26,7 +26,7 @@
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="{{ asset('css/adminlte.css') }}" />
-    
+
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link
@@ -197,7 +197,7 @@
         function confirmDelete(id, name) {
             Swal.fire({
                 title: 'Hapus Data?',
-                text: "Data pembinaan " + name + " akan dihapus permanen",
+                text: "Data " + name + " akan dihapus permanen",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -229,9 +229,14 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        // 1. Koordinat Awal (Jakarta)
-        var initialLat = -6.200000;
-        var initialLng = 106.816666;
+        // // 1. Koordinat Awal (Jakarta)
+        // var initialLat = -6.200000;
+        // var initialLng = 106.816666;
+        // var initialRadius = document.getElementById('radius').value;
+
+        // 1. Ambil data dari database (Blade) atau gunakan default jika kosong
+        var initialLat = {{ $monev->latitude ?? -6.200000 }};
+        var initialLng = {{ $monev->longitude ?? 106.816666 }};
         var initialRadius = document.getElementById('radius').value;
 
         // 2. Inisialisasi Peta
