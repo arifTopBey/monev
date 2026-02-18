@@ -16,42 +16,49 @@
              </div>
              <div class="row mt-3 border bg-white rounded-3 py-3 px-2">
 
-                 <div class="col-md-3">
-                     <label class="form-label">Date From:</label>
-                     <input type="date" class="form-control">
-                 </div>
-                 <div class="col-md-3">
-                     <label class="form-label">Date To:</label>
-                     <input type="date" class="form-control">
-                 </div>
-                 <div class="col-md-3 my-auto  py-3">
-                     <button class="btn btn-info text-white mt-3">
-                         Submit
-                     </button>
-                     <button class="btn btn-danger mt-3">
-                         Reset
-                     </button>
-                 </div>
-
+                <form class="d-flex gap-2" action="{{ route('monev') }}" method="get">
+                        <div class="col-md-3">
+                            <label class="form-label">Date From:</label>
+                            <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Date To:</label>
+                                <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-control">
+                        </div>
+                        <div class="col-md-3 my-auto  py-3">
+                            <button type="sumbit" class="btn btn-info text-white mt-3">
+                                Submit
+                            </button>
+                            <a href="{{ route('monev') }}" class="btn btn-danger mt-3">
+                                Reset
+                            </a>
+                        </div>
+                </form>
              </div>
 
              <div class="row mt-3 px-1 bg-white rounded-3 py-3 border">
                 <div class="d-flex mb-5 justify-content-between">
                     <div class="">
-                        <label for="show" class="me-2">Show</label>
-                        <select class="px-5 py-0" id="show">
-                            <option value="">10</option>
-                            <option value="">15</option>
-                            <option value="">20</option>
-                            <option value="">25</option>
-                            <option value="">30</option>
+                         <label for="show" class="me-2">Show</label>
+                        <select id="rowPerPage" class="w-auto px-3 py-1">
+                            <option value="10" {{ request('row_per_page') == 10 ? 'selected' : '' }}>10</option>
+                            <option value="20" {{ request('row_per_page') == 20 ? 'selected' : '' }}>20</option>
+                            <option value="30" {{ request('row_per_page') == 30 ? 'selected' : '' }}>20</option>
+                            <option value="50" {{ request('row_per_page') == 50 ? 'selected' : '' }}>50</option>
                         </select>
-                        <span class="ms-2">Entries</span>
-                    </div>
-                    <div class="d-flex">
-                        <span class="mt-1 me-1">Seach: </span>
-                        <input type="text" class="form-control ">
-                    </div>
+                         <span class="ms-2">Entries</span>
+                     </div>
+                    <form action="{{ route('realisasi') }}" method="GET">
+                         <div class="d-flex">
+                             <span class="mt-1 me-1">Search:</span>
+                             <input type="text" name="search" class="form-control form-control-sm"
+                                 placeholder="Cari nama perusahaan..." value="{{ request('search') }}">
+                             <button type="submit" class="btn btn-primary btn-sm ms-2">Cari</button>
+                             @if (request('search'))
+                                 <a href="{{ route('realisasi') }}" class="btn btn-secondary btn-sm ms-1">Reset</a>
+                             @endif
+                         </div>
+                     </form>
                 </div>
                  <div class="col-md-12">
                      <table id="dataTable" class="table table-striped table-bordered">
@@ -70,12 +77,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @foreach ($data as $monev)
                             <tr>
-                                <td>7-10-2022</td>
-                                <td>PT. INDONESIA FABRICATOR RAYA</td>
-                                <td>Kawasan Graha Balaraja Industrial Estate, Tangerang</td>
-                                <td>100.000.000</td>
-                                <td>200</td>
+                                <td>{{ $monev->tanggal_bap }}</td>
+                                <td>{{ $monev->nama_perusahaan }}</td>
+                                <td>{{ $monev->alamat_perusahaan }}</td>
+                                <td>{{ $monev->nilai_investasi }}</td>
+                                <td>{{ $monev->jumlah_tenaga_kerja_asing + $monev->jumlah_tenaga_kerja_indonesia }}</td>
                                 <td class="w-full">LLKPL</td>
                                 <td>
                                     <a class="btn btn-info text-white text-nowrap " href="">Ganti Status</a>
@@ -90,9 +98,16 @@
                                     <a class="btn btn-info text-white text-nowrap" href="">Ganti Status</a>
                                 </td>
                             </tr>
-
+                        @endforeach
                         </tbody>
                      </table>
+                 </div>
+             </div>
+              <div class="row">
+                 <div class="col-md-12 d-flex justify-content-end">
+                     <div class="mt-5">
+                         {{ $data->links() }}
+                     </div>
                  </div>
              </div>
          </div>

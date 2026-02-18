@@ -28,13 +28,36 @@ class MonevController extends Controller
          // Tangkap input dari form Blade
         $perPage = $request->input('row_per_page', 10);
 
-        $data = $this->monevInterface->getAllPaginate($search ?? null, $perPage);
-        $data->appends([
-            'search' => $search,
-            'row_per_page' => $perPage
-            ]);
+         $filters = [
+            'start_date' => $request->input('start_date'),
+            'end_date'   => $request->input('end_date'),
+        ];
+
+        $data = $this->monevInterface->getAllPaginate($search ?? null, $perPage, $filters);
+        $data->appends($request->all());
+
 
         return view('admin.monev.index', compact('data'));
+    }
+
+    public function dataRealisasiMonev(Request $request){
+
+         $search = $request->input('search');
+
+         // Tangkap input dari form Blade
+        $perPage = $request->input('row_per_page', 10);
+
+         $filters = [
+            'start_date' => $request->input('start_date'),
+            'end_date'   => $request->input('end_date'),
+        ];
+
+        $data = $this->monevInterface->getAllPaginate($search ?? null, $perPage, $filters);
+        $data->appends($request->all());
+
+
+        return view('admin.realisasi.index', compact('data'));
+
     }
 
     public function create(){

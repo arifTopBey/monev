@@ -30,13 +30,22 @@ class PembinaanController extends Controller
          // Tangkap input dari form Blade
         $perPage = $request->input('row_per_page', 10);
 
-        $data = $this->pembinaanInterface->getAllPaginate($search ?? null, $perPage);
-        $data->appends([
-            'search' => $search,
-            'row_per_page' => $perPage
-            ]);
+        $filters = [
+        'start_date' => $request->input('start_date'),
+        'end_date'   => $request->input('end_date'),
+        ];
 
-        // dd($data);
+        // $data = $this->pembinaanInterface->getAllPaginate($search ?? null, $perPage);
+        // $data->appends([
+        //     'search' => $search,
+        //     'row_per_page' => $perPage
+        //     ]);
+
+        $data = $this->pembinaanInterface->getAllPaginate($search, $perPage, $filters);
+
+        // 4. Gunakan appends($request->all()) agar semua filter tidak hilang saat pindah halaman
+        $data->appends($request->all());
+
 
         return view('admin.pembinaan.index', compact('data'));
     }

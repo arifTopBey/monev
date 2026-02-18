@@ -23,4 +23,9 @@ class IzinDimiliki extends Model
     protected $keyType = 'int';
 
     protected $guarded = ['id'];
+
+    public function monev(){
+
+        return $this->belongsTo(Monev::class, 'id_bap', 'id');
+    }
 }

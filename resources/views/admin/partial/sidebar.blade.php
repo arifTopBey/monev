@@ -50,7 +50,7 @@
                 <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                     aria-label="Main navigation" data-accordion="false" id="navigation">
                     <li class="nav-item {{ Request::is('dashboard') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('/dashboard') ? 'active' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('dashboard') ? 'active bg-black' : '' }}">
                             <i class="nav-icon bi bi-speedometer"></i>
                             <p>
                                 Dashboard
@@ -67,7 +67,7 @@
                         </ul>
                     </li>
                     <li class="nav-item {{ Request::is('pembinaan*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('pembinaan') ? 'active bg-black' : '' }}">
                             <i class="nav-icon bi bi-geo-fill"></i>
                             <p>
                                 Pembinaan
@@ -89,8 +89,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item {{ Request::is('monev') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('monev') ? 'active' : '' }}">
+                    <li class="nav-item {{ Request::is('monev*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('monev*') ? 'active bg-black' : '' }}">
                             <i class="nav-icon bi bi-geo-fill"></i>
                             <p>
                                 Monev
@@ -106,9 +106,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item  {{ Request::is('realisasi-pembinaan') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('
-                        realisasi-pembinaan') ? 'active' : '' }}"">
+                    <li class="nav-item  {{ Request::is('realisasi') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('realisasi') ? 'active bg-black' : '' }}"">
                             <i class="nav-icon bi  bi-file-earmark"></i>
                             <p class="fs-8">
                                 Data & Realisasi Monev

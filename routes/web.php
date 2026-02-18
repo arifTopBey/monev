@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MonevController;
 use App\Http\Controllers\PembinaanController;
-use App\Http\Controllers\RealiasasiController;
 use App\Http\Controllers\RealisasiPembinaanController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,9 +29,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/pembinaan/create', [PembinaanController::class, 'create'])->name('pembinaan.create');
     Route::post('/pembinaan/store', [PembinaanController::class, 'store'])->name('admin.pembinaan.store');
     Route::delete('/pembinaan/delete/{id}', [PembinaanController::class, 'destroy'])->name('admin.pembinaan.destroy');
+    Route::get('/pembinaan/realisasi', [RealisasiPembinaanController::class, 'index'])->name('realisasi.pembinaan.index');
 
 
-    Route::get('/realisasi', [RealiasasiController::class, 'index'])->name('realisasi');
+    Route::get('/realisasi', [MonevController::class, 'dataRealisasiMonev'])->name('realisasi');
 
     Route::get('/monev', [MonevController::class, 'index'])->name('monev');
     Route::get('/monev/detail/{id_bap}',[MonevController::class, 'show'])->name('admin.monev.detail');
@@ -54,7 +54,6 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/monev/store', [MonevController::class, 'store'])->name('admin.monev.store');
     Route::delete('/monev/delete/{id_bap}', [MonevController::class, 'destroy'])->name('admin.monev.destroy');
 
-    Route::get('/realisasi-pembinaan', [RealisasiPembinaanController::class, 'index'])->name('realisasi.pembinaan.index');
 
     // gambar
     Route::get('/storage/private/{path}', [MonevController::class, 'showFoto'])->where('path', '.*')->name('showFoto.private');

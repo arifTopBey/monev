@@ -12,7 +12,7 @@ class MonevRepositoryInterface implements MonevInterface
 {
 
 
-    public function getAll(?string $search, ?int $limit, bool $execute)
+    public function getAll(?string $search, ?int $limit, bool $execute,array $filters = [])
     {
 
         $query = Monev::where(function ($query) use ($search) {
@@ -21,6 +21,14 @@ class MonevRepositoryInterface implements MonevInterface
                 $query->search($search);
             }
         });
+
+        if (!empty($filters['start_date'])) {
+        $query->whereDate('tanggal_bap', '>=', $filters['start_date']);
+        }
+
+        if (!empty($filters['end_date'])) {
+            $query->whereDate('tanggal_bap', '<=', $filters['end_date']);
+        }
 
         $query->orderByDesc('id_bap');
 
@@ -35,10 +43,10 @@ class MonevRepositoryInterface implements MonevInterface
         return $query;
     }
 
-    public function getAllPaginate(?string $search, ?int $rowPerPage)
+    public function getAllPaginate(?string $search, ?int $rowPerPage,array $filters = [])
     {
 
-        $query = $this->getAll($search, $rowPerPage, false);
+        $query = $this->getAll($search, $rowPerPage, false, $filters);
 
         return  $query->paginate($rowPerPage);
     }

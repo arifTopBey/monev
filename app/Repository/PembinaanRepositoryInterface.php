@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class PembinaanRepositoryInterface implements PembinaanInterface {
 
-    public function getAll(?string $search, ?int $limit, bool $execute){
+    public function getAll(?string $search, ?int $limit, bool $execute,array $filters = []){
 
         $query = Pembinaan::where(function($query) use ($search){
 
@@ -18,6 +18,14 @@ class PembinaanRepositoryInterface implements PembinaanInterface {
                 $query->search($search);
             }
         });
+
+        if (!empty($filters['start_date'])) {
+        $query->whereDate('dateCreated', '>=', $filters['start_date']);
+        }
+
+        if (!empty($filters['end_date'])) {
+            $query->whereDate('dateCreated', '<=', $filters['end_date']);
+        }
 
         $query->orderByDesc('dateCreated');
         if($limit){
@@ -31,9 +39,9 @@ class PembinaanRepositoryInterface implements PembinaanInterface {
         return $query;
     }
 
-    public function getAllPaginate(?string $search, ?int $rowPerPage){
+    public function getAllPaginate(?string $search, ?int $rowPerPage, array $filters = []){
 
-        $query = $this->getAll($search, $rowPerPage, false);
+        $query = $this->getAll($search, $rowPerPage, false, $filters);
 
         return  $query->paginate($rowPerPage);
 

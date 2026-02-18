@@ -5,7 +5,7 @@
 
             <!-- HEADER -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold">Monev BAP Senin, 26 Januari 2026</h4>
+                <h4 class="fw-bold">Monev BAP {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</h4>
                 <div>
                     <a href="{{ route('monev') }}" class="btn btn-success btn-sm">+ Money List</a>
                     <a href="{{ route('monev.create') }}" class="btn btn-primary btn-sm">+ Tambah Money Singkat</a>

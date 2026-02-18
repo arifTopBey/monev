@@ -33,4 +33,9 @@ class Monev extends Model
                     // ->orWhere('namaPeserta', 'like', "%{$search}%")
                     // ->orWhere('alamatPerusahaan', 'like', "%{$search}%");
     }
+
+    public function izinDimiliki(){
+        return $this->hasMany(IzinDimiliki::class, 'id_bap', 'id');
+    }
+
 }

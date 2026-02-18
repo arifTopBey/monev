@@ -26,9 +26,11 @@ class MonevApiController extends Controller
      public function index(Request $request){
 
          try{
-            $pembinaan = $this->monevInterface->getAll($request->search, $request->limit, true);
-
-            return ResponseHelper::jsonResponse(true, 'Data Money berhasil diambil', $pembinaan, 200);
+            $monev = $this->monevInterface->getAll($request->search, $request->limit, true);
+            $monev->foto_lapangan_url = $monev->foto_lapangan ? url('api/v1/foto/' . $monev->foto_lapangan) : null;
+            $monev->foto_lapangan2_url = $monev->foto_lapangan2 ? url('api/v1/foto/' . $monev->foto_lapangan2) : null;
+            $monev->foto_lapangan2_url = $monev->foto_lapangan2 ? url('api/v1/foto/' . $monev->foto_lapangan3) : null;
+            return ResponseHelper::jsonResponse(true, 'Data Money berhasil diambil', $monev, 200);
 
          }catch(Exception $exception){
 
@@ -49,7 +51,9 @@ class MonevApiController extends Controller
          try{
 
             $monev = $this->monevInterface->getAllPaginate($validated['search']  ?? null, $validated['row_per_page'] ?? 10);
-
+            $monev->foto_lapangan_url = $monev->foto_lapangan ? url('api/v1/foto/' . $monev->foto_lapangan) : null;
+            $monev->foto_lapangan2_url = $monev->foto_lapangan2 ? url('api/v1/foto/' . $monev->foto_lapangan2) : null;
+            $monev->foto_lapangan2_url = $monev->foto_lapangan2 ? url('api/v1/foto/' . $monev->foto_lapangan3) : null;
             return ResponseHelper::jsonResponse(true, 'Berhasil mengambil data monev',   PaginateResource::make($monev, MonevResource::class), 200);
 
          }catch(Exception $exception){

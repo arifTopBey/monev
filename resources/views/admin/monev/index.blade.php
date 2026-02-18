@@ -17,22 +17,24 @@
              </div>
              <div class="row mt-3 border bg-white rounded-3 py-3 px-2">
 
-                 <div class="col-md-3">
-                     <label class="form-label">Date From:</label>
-                     <input type="date" class="form-control">
-                 </div>
-                 <div class="col-md-3">
-                     <label class="form-label">Date To:</label>
-                     <input type="date" class="form-control">
-                 </div>
-                 <div class="col-md-3 my-auto  py-3">
-                     <button class="btn btn-info text-white mt-3">
-                         Submit
-                     </button>
-                     <button class="btn btn-danger mt-3">
-                         Reset
-                     </button>
-                 </div>
+                  <form class="d-flex gap-2" action="{{ route('monev') }}" method="get">
+                        <div class="col-md-3">
+                            <label class="form-label">Date From:</label>
+                            <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Date To:</label>
+                                <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-control">
+                        </div>
+                        <div class="col-md-3 my-auto  py-3">
+                            <button type="sumbit" class="btn btn-info text-white mt-3">
+                                Submit
+                            </button>
+                            <a href="{{ route('monev') }}" class="btn btn-danger mt-3">
+                                Reset
+                            </a>
+                        </div>
+                </form>
 
              </div>
 
