@@ -101,4 +101,26 @@ class PembinaanRepositoryInterface implements PembinaanInterface {
             throw new Exception($exception->getMessage());
         }
     }
+
+    public function updateStatusPembinaan(int $id ){
+
+        DB::beginTransaction();
+
+        try{
+
+            $pembinaan = Pembinaan::find($id);
+            // $pembinaan->hasilPembinaan = ! $pembinaan->hasilPembinaan;
+            $pembinaan->hasilPembinaan = ($pembinaan->hasilPembinaan == 1) ? 0 : 1;
+            
+            $pembinaan->update();
+            DB::commit();
+            return $pembinaan;
+
+        }catch(Exception $exception){
+
+            DB::rollBack();
+            throw new Exception($exception->getMessage());
+        }
+        
+    }
 }

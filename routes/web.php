@@ -30,9 +30,12 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/pembinaan/store', [PembinaanController::class, 'store'])->name('admin.pembinaan.store');
     Route::delete('/pembinaan/delete/{id}', [PembinaanController::class, 'destroy'])->name('admin.pembinaan.destroy');
     Route::get('/pembinaan/realisasi', [RealisasiPembinaanController::class, 'index'])->name('realisasi.pembinaan.index');
+    Route::put('/pembinaan/realisasi/status/{id}', [RealisasiPembinaanController::class, 'updateStatusPembinaan'])->name('realisasi.pembinaan.status.update');
 
 
     Route::get('/realisasi', [MonevController::class, 'dataRealisasiMonev'])->name('realisasi');
+    Route::put('/realisasi/update-lkpm/{id_bap}',[MonevController::class, 'updateLKPM'])->name('realisasi.update.lkpm');
+    Route::put('/realisasi/update-pkkpr/{id_bap}', [MonevController::class, 'updatePKKPR'])->name('realisasi.update.pkkpr');
 
     Route::get('/monev', [MonevController::class, 'index'])->name('monev');
     Route::get('/monev/detail/{id_bap}',[MonevController::class, 'show'])->name('admin.monev.detail');

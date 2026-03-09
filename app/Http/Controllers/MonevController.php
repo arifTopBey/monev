@@ -229,7 +229,49 @@ class MonevController extends Controller
 
     }
 
-      public function destroy( $id_bap){
+
+
+    public function updateLKPM(int $id_bap){
+        try{    
+
+            $monev = $this->monevInterface->getById($id_bap);
+
+            if(!$monev){
+                return back()->withErrors(['errorStatus' => 'Id Monev Tidak ditemukan']);
+            }
+
+            $updateStatus = $this->monevInterface->updateLKPM($id_bap);
+            
+            return response()->json([
+                'success' => true,
+                'data' => $updateStatus
+            ]);
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function updatePKKPR(int $id_bap){
+        try{    
+
+            $monev = $this->monevInterface->getById($id_bap);
+
+            if(!$monev){
+                return back()->withErrors(['errorStatus' => 'Id Monev Tidak ditemukan']);
+            }
+
+            $updateStatus = $this->monevInterface->updatePKKPR($id_bap);
+            
+            return response()->json([
+                'success' => true,
+                'data' => $updateStatus
+            ]);
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function destroy( $id_bap){
 
         try{
             $this->monevInterface->delete($id_bap);

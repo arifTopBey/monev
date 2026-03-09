@@ -67,7 +67,7 @@
                         </ul>
                     </li>
                     <li class="nav-item {{ Request::is('pembinaan*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('pembinaan') ? 'active bg-black' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('pembinaan*') ? 'active bg-black' : '' }}">
                             <i class="nav-icon bi bi-geo-fill"></i>
                             <p>
                                 Pembinaan

@@ -35,7 +35,11 @@ class Monev extends Model
     }
 
     public function izinDimiliki(){
-        return $this->hasMany(IzinDimiliki::class, 'id_bap', 'id');
+        return $this->hasOne(IzinDimiliki::class, 'id_bap', 'id');
+    }
+
+    public function izinLKPM() {
+        return $this->hasOne(LKPM::class, 'id_bap', 'id_bap');
     }
 
 }

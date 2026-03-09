@@ -24,6 +24,9 @@ class IzinDimiliki extends Model
 
     protected $guarded = ['id'];
 
+    public $timestamps = false;
+
+
     public function monev(){
 
         return $this->belongsTo(Monev::class, 'id_bap', 'id');

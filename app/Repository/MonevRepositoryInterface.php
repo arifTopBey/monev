@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Interface\MonevInterface;
+use App\Models\IzinDimiliki;
+use App\Models\LKPM;
 use App\Models\Monev;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +14,7 @@ class MonevRepositoryInterface implements MonevInterface
 {
 
 
-    public function getAll(?string $search, ?int $limit, bool $execute,array $filters = [])
+    public function getAll(?string $search, ?int $limit, bool $execute, array $filters = [])
     {
 
         $query = Monev::where(function ($query) use ($search) {
@@ -23,7 +25,7 @@ class MonevRepositoryInterface implements MonevInterface
         });
 
         if (!empty($filters['start_date'])) {
-        $query->whereDate('tanggal_bap', '>=', $filters['start_date']);
+            $query->whereDate('tanggal_bap', '>=', $filters['start_date']);
         }
 
         if (!empty($filters['end_date'])) {
@@ -43,12 +45,12 @@ class MonevRepositoryInterface implements MonevInterface
         return $query;
     }
 
-    public function getAllPaginate(?string $search, ?int $rowPerPage,array $filters = [])
+    public function getAllPaginate(?string $search, ?int $rowPerPage, array $filters = [])
     {
 
         $query = $this->getAll($search, $rowPerPage, false, $filters);
 
-        return  $query->paginate($rowPerPage);
+        return $query->paginate($rowPerPage);
     }
 
     public function create(array $data)
@@ -219,19 +221,19 @@ class MonevRepositoryInterface implements MonevInterface
             $monev = Monev::where('id_bap', $id_bap)->first();
 
 
-            if(isset($data['location'])){
+            if (isset($data['location'])) {
                 $monev->location = $data['location'];
             }
 
-            if(isset($data['latitude'])){
+            if (isset($data['latitude'])) {
                 $monev->latitude = $data['latitude'];
             }
 
-            if(isset($data['longitude'])){
+            if (isset($data['longitude'])) {
                 $monev->longitude = $data['longitude'];
             }
 
-            if(isset($data['radius'])){
+            if (isset($data['radius'])) {
                 $monev->radius = $data['radius'];
             }
 
@@ -273,10 +275,79 @@ class MonevRepositoryInterface implements MonevInterface
         }
     }
 
-    public function delete($id_bap){
-         DB::beginTransaction();
+    public function updateLKPM(int $id_bap)
+    {
+        DB::beginTransaction();
 
-        try{
+        try {
+
+            $monev = Monev::where('id_bap', $id_bap)->first();
+            $lkpm = LKPM::where('id_bap', $monev->id_bap)->first();
+
+            // $lkpm->statusLapor ?? 0;
+
+            // $lkpm->statusLapor = ($lkpm->statusLapor == 1) ? 0 : 1;
+            if (!$lkpm) {
+                // Opsional: Jika null, buatkan data baru otomatis dengan status 1
+                $lkpm = new LKPM();
+                $lkpm->id_bap = $monev->id_bap;
+                $lkpm->statusLapor = 1;
+            } else {
+                // Jika ada, lakukan toggle seperti biasa
+                // Gunakan ?? 0 saat pengecekan untuk berjaga-jaga
+                $currentStatus = $lkpm->statusLapor ?? 0;
+                $lkpm->statusLapor = ($currentStatus == 1) ? 0 : 1;
+            }
+
+            $lkpm->save();
+
+            DB::commit();
+            return $lkpm;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+    public function updatePKKPR(int $id_bap)
+    {
+
+        DB::beginTransaction();
+        try {
+
+            $izin = IzinDimiliki::where('id_bap', $id_bap)->first();
+
+            if (!$izin) {
+                throw new Exception("Data Izin tidak ditemukan");
+            }
+
+            if (!$izin) {
+                // Jika tidak ada, buat baru
+                $izin = new IzinDimiliki();
+                $izin->id_bap = $id_bap;
+                $izin->pkkpr = 1; // Karena awalnya null (dianggap 0), maka targetnya jadi 1
+            } else {
+                // Jika ada, toggle status
+                $currentValue = $izin->pkkpr ?? 0;
+                $izin->pkkpr = ($currentValue == 1) ? 0 : 1;
+            }
+
+            $izin->save();
+            DB::commit();
+            return $izin;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+
+
+    public function delete($id_bap)
+    {
+        DB::beginTransaction();
+
+        try {
 
             $monev = Monev::find($id_bap);
 
@@ -297,7 +368,7 @@ class MonevRepositoryInterface implements MonevInterface
 
             return $monev;
 
-        }catch(Exception $exception){
+        } catch (Exception $exception) {
 
             DB::rollBack();
             throw new Exception($exception->getMessage());

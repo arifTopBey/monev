@@ -22,4 +22,8 @@ interface MonevInterface {
 
     public function delete($id_bap);
 
+    public function updateLKPM(int $id_bap);
+
+    public function updatePKKPR(int $id_bap);
+
 }

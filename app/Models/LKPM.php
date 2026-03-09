@@ -13,7 +13,7 @@ class LKPM extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_bap';
 
     /**
      * The "type" of the primary key ID.
@@ -21,6 +21,12 @@ class LKPM extends Model
      * @var string
      */
     protected $keyType = 'int';
+    public $timestamps = false;
+
 
     protected $guarded = ['id'];
+
+    public function monev(){
+         return $this->belongsTo(Monev::class, 'id_bap', 'id_bap');
+    }
 }

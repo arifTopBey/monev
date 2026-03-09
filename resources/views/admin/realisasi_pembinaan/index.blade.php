@@ -49,10 +49,6 @@
                         </select>
                          <span class="ms-2">Entries</span>
                      </div>
-                     {{-- <div class="d-flex">
-                        <span class="mt-1 me-1">Seach: </span>
-                        <input type="text" class="form-control ">
-                    </div> --}}
                      <form action="{{ route('realisasi.pembinaan.index') }}" method="GET">
                          <div class="d-flex">
                              <span class="mt-1 me-1">Search:</span>
@@ -84,12 +80,13 @@
                                 <td>{{ $pembinaan->namaPerusahaan }}</td>
                                 <td>{{ $pembinaan->alamatPerusahaan }}</td>
                                 <td>Pembuatan LKPM</td>
-                                @if ($pembinaan->hasilPembinaan === 0)
-                                    <td><P class="text-danger border border-primary px-2 py-1"><span class="fw-bold fs-5">x</span> Belum Lapor Pembuatan LKPM</P></td>
-                                @else
-
-                                <td><P class="text-success border border-primary px-2 py-1">✔ Sudah Lapor Pembuatan LKPM</P></td>
-                                @endif
+                                <td class="status-container" style="cursor: pointer;" data-id="{{ $pembinaan->id }}" data-status="{{ $pembinaan->hasilPembinaan }}">
+                                    @if ($pembinaan->hasilPembinaan === 0)
+                                        <p class="text-danger border border-primary px-2 py-1 status-text"><span class="fw-bold fs-5">x</span> Belum Lapor Pembuatan LKPM</p>
+                                    @else
+                                        <p class="text-success border border-primary px-2 py-1 status-text">✔ Sudah Lapor Pembuatan LKPM</p>
+                                    @endif
+                                </td>
 
                             </tr>
                             @endforeach
