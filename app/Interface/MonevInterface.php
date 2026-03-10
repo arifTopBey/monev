@@ -26,4 +26,8 @@ interface MonevInterface {
 
     public function updatePKKPR(int $id_bap);
 
+    public function updateIzinLingungan(int $id_bap);
+
+    public function updateSertifikatStandart(int $id_bap);
+
 }

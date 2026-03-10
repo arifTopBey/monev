@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Interface\PembinaanInterface;
-use App\Models\Agenda;
+// use App\Models\Agenda;
 use App\Models\Pembinaan;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +17,7 @@ class PembinaanRepositoryInterface implements PembinaanInterface {
             if($search){
                 $query->search($search);
             }
-        });
+        })->with(['izinDimiliki']);
 
         if (!empty($filters['start_date'])) {
         $query->whereDate('dateCreated', '>=', $filters['start_date']);

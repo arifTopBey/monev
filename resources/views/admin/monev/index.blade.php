@@ -39,6 +39,11 @@
              </div>
 
              <div class="row mt-3 px-1 bg-white rounded-3 py-3 border">
+                 @if(session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
                    <div class="d-flex mb-5 justify-content-between">
                      <div class="">
                          <label for="show" class="me-2">Show</label>
@@ -96,7 +101,7 @@
                                              </button>
                                          </form>
                                         {{-- <a href="" class="btn btn-danger">🗑</a> --}}
-                                        <a href="" class="btn btn-info">📇</a>
+                                        <a href="{{ route('admin.monev.download.word', $monev->id_bap) }}" class="btn btn-info">📇</a>
                                     </div>
                                 </td>
 

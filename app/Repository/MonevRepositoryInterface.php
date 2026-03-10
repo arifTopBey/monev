@@ -22,7 +22,7 @@ class MonevRepositoryInterface implements MonevInterface
             if ($search) {
                 $query->search($search);
             }
-        });
+        })->with('izinDimiliki');
 
         if (!empty($filters['start_date'])) {
             $query->whereDate('tanggal_bap', '>=', $filters['start_date']);
@@ -325,7 +325,7 @@ class MonevRepositoryInterface implements MonevInterface
                 // Jika tidak ada, buat baru
                 $izin = new IzinDimiliki();
                 $izin->id_bap = $id_bap;
-                $izin->pkkpr = 1; // Karena awalnya null (dianggap 0), maka targetnya jadi 1
+                $izin->pkkpr = 0; // Karena awalnya null (dianggap 0), maka targetnya jadi 1
             } else {
                 // Jika ada, toggle status
                 $currentValue = $izin->pkkpr ?? 0;
@@ -340,6 +340,60 @@ class MonevRepositoryInterface implements MonevInterface
             throw new Exception($exception->getMessage());
         }
     }
+
+    public function updateIzinLingungan(int $id_bap)
+    {
+        DB::beginTransaction();
+        try {
+            $izin = IzinDimiliki::where('id_bap', $id_bap)->first();
+
+            if (!$izin) {
+                // Jika tidak ada, buat baru dan langsung set il = 1
+                $izin = new IzinDimiliki();
+                $izin->id_bap = $id_bap;
+                $izin->il = 1;
+            } else {
+                // Jika ada, toggle status
+                $currentValue = $izin->il ?? 0;
+                $izin->il = ($currentValue == 1) ? 0 : 1;
+            }
+
+            $izin->save();
+            DB::commit();
+            return $izin;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+    public function updateSertifikatStandart(int $id_bap){
+        DB::beginTransaction();
+        try {
+            $izin = IzinDimiliki::where('id_bap', $id_bap)->first();
+
+            if (!$izin) {
+                // Jika tidak ada, buat baru dan langsung set il = 1
+                $izin = new IzinDimiliki();
+                $izin->id_bap = $id_bap;
+                $izin->sertifikat_standart = 1;
+            } else {
+                // Jika ada, toggle status
+                $currentValue = $izin->sertifikat_standart ?? 0;
+                $izin->il = ($currentValue == 1) ? 0 : 1;
+            }
+
+            $izin->save();
+            DB::commit();
+            return $izin;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+
+
 
 
 

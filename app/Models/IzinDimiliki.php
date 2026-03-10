@@ -26,9 +26,13 @@ class IzinDimiliki extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+    'il' => 'integer',
+    ];
+
 
     public function monev(){
 
-        return $this->belongsTo(Monev::class, 'id_bap', 'id');
+        return $this->belongsTo(Monev::class, 'id', 'id_bap');
     }
 }

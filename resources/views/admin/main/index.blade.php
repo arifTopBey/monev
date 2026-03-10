@@ -90,7 +90,7 @@
         <!--end::App Main-->
 
         <!--begin::Footer-->
-        <footer class="app-footer">
+        <footer class="app-footer text-center">
 
             <strong>
                 Monev &copy; 2026 &nbsp;
@@ -415,7 +415,7 @@
                             console.log(updatedStatusKppr)
                             const iconContainerPkkpr = document.getElementById(`status-icon-pkkpr-${idBap}`);
 
-                            if (parseInt(updatedStatusKppr) === 1) {
+                            if (parseInt(updatedStatusKppr) == 1) {
                                 iconContainerPkkpr.innerHTML = '<p class="text-center fw-bold">✅</p>';
                             } else {
                                 iconContainerPkkpr.innerHTML = '<p class="text-center fw-bold">❌</p>';
@@ -435,6 +435,107 @@
         });
     </script>
     <!-- update pkkpr -->
+
+    <!-- update lingkungan -->
+    <script>
+        document.querySelectorAll('.btn-update-lingkungan').forEach(button => {
+            button.addEventListener('click', function () {
+                const idBap = this.getAttribute('data-id');
+                const iconContainerLingkungan = document.getElementById(`btn-update-lingkungan-${idBap}`);
+                // console.log(iconContainerLingkungan);
+
+                // Beri efek loading sederhana (opsional)
+                this.innerText = 'Loading...';
+                this.disabled = true;
+
+                fetch(`/realisasi/update-izin-lingkungan/${idBap}`, {
+                    method: 'PUT',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                  
+                    .then(data => {
+                          console.log(data)
+                        // Bagian dalam fetch .then(data => { ... })
+                        if (data.success) {
+                            // Ambil status terbaru dari hasil update di database
+                            const updateStatusLingkungan = data.data.il;
+                            const iconContainerLingkungan = document.getElementById(`status-icon-lingkungan-${idBap}`);
+
+                            if (parseInt(updateStatusLingkungan) == 1) {
+                                iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">✅</p>';
+                            } else {
+                                iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">❌</p>';
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat update status.');
+                    })
+                    .finally(() => {
+                        // Kembalikan teks tombol
+                        this.innerText = 'Ganti Status';
+                        this.disabled = false;
+                    });
+            });
+        });
+    </script>
+    <!-- update lingkungan -->
+    <!-- update standart -->
+    <script>
+        document.querySelectorAll('.btn-update-sertifikat-standart').forEach(button => {
+            button.addEventListener('click', function () {
+                const idBap = this.getAttribute('data-id');
+                const iconContainerLingkungan = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
+                console.log(iconContainerLingkungan);
+
+                // Beri efek loading sederhana (opsional)
+                this.innerText = 'Loading...';
+                this.disabled = true;
+
+                fetch(`/realisasi/update-sertifikat-standart/${idBap}`, {
+                    method: 'PUT',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                  
+                    .then(data => {
+                          console.log(data)
+                        // Bagian dalam fetch .then(data => { ... })
+                        if (data.success) {
+                            // Ambil status terbaru dari hasil update di database
+                            const updateStatusLingkungan = data.data.sertifikat_standart;
+                            const iconContainerLingkungan = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
+
+                            if (parseInt(updateStatusLingkungan) == 1) {
+                                iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">✅</p>';
+                            } else {
+                                iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">❌</p>';
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat update status.');
+                    })
+                    .finally(() => {
+                        // Kembalikan teks tombol
+                        this.innerText = 'Ganti Status';
+                        this.disabled = false;
+                    });
+            });
+        });
+    </script>
+    <!-- update lingkungan -->
 
 </body>
 <!--end::Body-->

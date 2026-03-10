@@ -36,9 +36,14 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/realisasi', [MonevController::class, 'dataRealisasiMonev'])->name('realisasi');
     Route::put('/realisasi/update-lkpm/{id_bap}',[MonevController::class, 'updateLKPM'])->name('realisasi.update.lkpm');
     Route::put('/realisasi/update-pkkpr/{id_bap}', [MonevController::class, 'updatePKKPR'])->name('realisasi.update.pkkpr');
+    Route::put('/realisasi/update-izin-lingkungan/{id_bap}', [MonevController::class, 'izinLingkungan'])->name('realisasi.update.izin.lingkungan');
+    Route::put('/realisasi/update-sertifikat-standart/{id_bap}', [MonevController::class, 'updateSertifikatStandart'])->name('realisasi.update.sertifikat.standart');
+
 
     Route::get('/monev', [MonevController::class, 'index'])->name('monev');
     Route::get('/monev/detail/{id_bap}',[MonevController::class, 'show'])->name('admin.monev.detail');
+
+    Route::get('/monev/download/{id_bap}', [MonevController::class, 'downloadWord'])->name('admin.monev.download.word');
 
     Route::get('/monev/edit-keterangan-umum/{id_bap}', [MonevController::class, 'showKeteranganUmum'])->name('admin.monev.umum');
     Route::put('/monev/update-keterangan-umum/{id_bap}', [MonevController::class, 'updateKeteranganUmum'])->name('admin.monev.update.umum');
@@ -72,6 +77,13 @@ Route::middleware(['auth'])->group(function(){
 
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+    Route::get('/profile/{id}', [AuthController::class, 'profile'])->name('admin.auth.profile');
+    Route::put('/profile-update/{id}', [AuthController::class, 'updateProfile'])->name('admin.auth.profile.update');
+
+    Route::get('/profile/edit-password/{id}', [AuthController::class, 'editPassword'])->name('admin.auth.edit.password');
+    Route::put('/profile/update-password/{id}',[AuthController::class, 'updatePassword'])->name('admin.auth.update.password');
+
 
 });
 

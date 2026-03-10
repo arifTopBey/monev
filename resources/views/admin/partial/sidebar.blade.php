@@ -124,6 +124,24 @@
                         </ul>
                     </li>
 
+                    <li class="nav-item {{ Request::is('profile*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('profile*') ? 'active bg-black' : '' }}">
+                            <i class="bi bi-person-circle"></i>
+                            <p>
+                                Profile
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.auth.profile', auth()->user()->id) }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p>Akun</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-box-arrow-right"></i>

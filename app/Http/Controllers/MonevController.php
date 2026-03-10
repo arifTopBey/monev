@@ -8,9 +8,11 @@ use App\Http\Requests\api\UpdateKesimpulanRequest;
 use App\Http\Requests\api\UpdateKeteranganPerusahaanRequest;
 use App\Http\Requests\api\UpdateMonevUmumRequest;
 use App\Interface\MonevInterface;
+use App\Models\Monev;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class MonevController extends Controller
 {
@@ -271,6 +273,80 @@ class MonevController extends Controller
         }
     }
 
+    public function izinLingkungan(int $id_bap){
+         try{    
+
+            $monev = $this->monevInterface->getById($id_bap);
+
+            if(!$monev){
+                return back()->withErrors(['errorStatus' => 'Id Monev Tidak ditemukan']);
+            }
+
+            $updateStatus = $this->monevInterface->updateIzinLingungan($id_bap);
+            
+            return response()->json([
+                'success' => true,
+                'data' => $updateStatus
+            ]);
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function updateSertifikatStandart(int $id_bap){
+         try{    
+
+            $monev = $this->monevInterface->getById($id_bap);
+
+            if(!$monev){
+                return back()->withErrors(['errorStatus' => 'Id Monev Tidak ditemukan']);
+            }
+
+            $updateStatus = $this->monevInterface->updateSertifikatStandart($id_bap);
+            
+            return response()->json([
+                'success' => true,
+                'data' => $updateStatus
+            ]);
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+
+
+
+    public function downloadWord(int $id_bap){
+        $monev = Monev::findOrFail($id_bap);
+
+        $templatePath = storage_path('app/public/templates/1066bap.docx');
+        $templateProcessor = new TemplateProcessor($templatePath);
+
+        $templateProcessor->setValue('tanggal', \Carbon\Carbon::parse($monev->tanggal_bap)->translatedFormat('l, d F Y')); 
+        $templateProcessor->setValue('nama_perusahaan', $monev->nama_perusahaan); 
+        $templateProcessor->setValue('nama_pemimpin_perusahaan', $monev->nama_pemimpin_perusahaan); 
+        $templateProcessor->setValue('no_telp', $monev->no_telp); 
+        $templateProcessor->setValue('npwp', $monev->npwp ?? '-'); 
+        $templateProcessor->setValue('status', $monev->status ?? '-'); 
+        $templateProcessor->setValue('nama_penerima', $monev->nama_penerima ?? '..........'); 
+        $templateProcessor->setValue('kesimpulan_saran', $monev->kesimpulan_saran ?? '..........'); 
+        $templateProcessor->setValue('hasil_pemeriksaan', $monev->hasil_pemeriksaan ?? '..........'); 
+        $templateProcessor->setValue('kelengkapan_legalitas', $monev->kelengkapan_legalitas ?? '..........'); 
+        $templateProcessor->setValue('aspek_lingkungan', $monev->aspek_lingkungan ?? '..........'); 
+        $templateProcessor->setValue('jabatan', $monev->jabatan ?? '..........'); 
+        $templateProcessor->setValue('alamat_perusahaan', $monev->alamat_perusahaan); 
+        $templateProcessor->setValue('bidang_usaha', $monev->bidang_usaha); 
+        $templateProcessor->setValue('nilai_investasi', number_format((float)$monev->nilai_investasi, 0, ',', '.')); 
+        $templateProcessor->setValue('jumlah_tenaga_kerja_indonesia', $monev->jumlah_tenaga_kerja_indonesia ?? 0); 
+        $templateProcessor->setValue('jumlah_tenaga_kerja_asing', $monev->jumlah_tenaga_kerja_asing ?? 0); 
+
+        $fileName = "BAP_" . str_replace(' ', '_', $monev->nama_perusahaan) . ".docx";
+        $tempFile = tempnam(sys_get_temp_dir(), 'PHPWord');
+        $templateProcessor->saveAs($tempFile);
+
+        return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
+    }
+
     public function destroy( $id_bap){
 
         try{
@@ -282,8 +358,6 @@ class MonevController extends Controller
 
         }
     }
-
-
 
     // foto private
     public function showFoto($path){
