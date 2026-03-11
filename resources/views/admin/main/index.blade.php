@@ -354,9 +354,9 @@
                     }
                 })
                     .then(response => response.json())
-                  
+
                     .then(data => {
-                          console.log(data)
+                        console.log(data)
                         // Bagian dalam fetch .then(data => { ... })
                         if (data.success) {
                             // Ambil status terbaru dari hasil update di database
@@ -405,9 +405,9 @@
                     }
                 })
                     .then(response => response.json())
-                  
+
                     .then(data => {
-                          console.log(data)
+                        console.log(data)
                         // Bagian dalam fetch .then(data => { ... })
                         if (data.success) {
                             // Ambil status terbaru dari hasil update di database
@@ -457,9 +457,9 @@
                     }
                 })
                     .then(response => response.json())
-                  
+
                     .then(data => {
-                          console.log(data)
+                        console.log(data)
                         // Bagian dalam fetch .then(data => { ... })
                         if (data.success) {
                             // Ambil status terbaru dari hasil update di database
@@ -491,8 +491,8 @@
         document.querySelectorAll('.btn-update-sertifikat-standart').forEach(button => {
             button.addEventListener('click', function () {
                 const idBap = this.getAttribute('data-id');
-                const iconContainerLingkungan = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
-                console.log(iconContainerLingkungan);
+                // const iconContainerLingkungan = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
+                // console.log(iconContainerLingkungan);
 
                 // Beri efek loading sederhana (opsional)
                 this.innerText = 'Loading...';
@@ -507,16 +507,16 @@
                     }
                 })
                     .then(response => response.json())
-                  
+
                     .then(data => {
-                          console.log(data)
+                        console.log(data)
                         // Bagian dalam fetch .then(data => { ... })
                         if (data.success) {
                             // Ambil status terbaru dari hasil update di database
-                            const updateStatusLingkungan = data.data.sertifikat_standart;
+                            const updateSertifkat = data.data.sertifikat_standar;
                             const iconContainerLingkungan = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
 
-                            if (parseInt(updateStatusLingkungan) == 1) {
+                            if (parseInt(updateSertifkat) == 1) {
                                 iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">✅</p>';
                             } else {
                                 iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">❌</p>';
@@ -536,6 +536,25 @@
         });
     </script>
     <!-- update lingkungan -->
+
+    @if (Request::is('profile/edit-password*'))
+        <script>
+            function togglePassword(inputId, el) {
+                let input = document.getElementById(inputId);
+                let icon = el.querySelector("i");
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    icon.classList.remove("bi-eye");
+                    icon.classList.add("bi-eye-slash");
+                } else {
+                    input.type = "password";
+                    icon.classList.remove("bi-eye-slash");
+                    icon.classList.add("bi-eye");
+                }
+            }
+        </script>
+    @endif
 
 </body>
 <!--end::Body-->

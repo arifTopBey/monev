@@ -45,30 +45,45 @@
                     <div class="mb-3 ">
                         <label for="tanggal_bap" class="form-label fw-semibold">Tanggal BAP</label>
                         <input type="date" class="form-control" name="tanggal_bap" id="tanggal_bap" value="{{ \Carbon\Carbon::parse($monev->tanggal_bap)->format('Y-m-d') }}">
+                        @error('tanggal_bap')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Nama -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Nama Penerima Monev</label>
                         <input type="text" class="form-control" name="nama_penerima" value="{{ $monev->nama_penerima }}">
+                        @error('nama_penerima')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Jabatan -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Jabatan dalam Perusahaan</label>
                         <input type="text" class="form-control" name="jabatan" value="{{ $monev->jabatan }}">
+                        @error('jabatan')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Alamat -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Alamat Perusahaan</label>
                         <textarea class="form-control" rows="3" name="alamat_perusahaan">{{ $monev->alamat_perusahaan }}</textarea>
+                        @error('alamat_perusahaan')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- No Telp -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold">No Telp</label>
                         <input type="text" class="form-control" name="no_telp" value="{{ $monev->no_telp }}">
+                        @error('no_telp')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Button -->

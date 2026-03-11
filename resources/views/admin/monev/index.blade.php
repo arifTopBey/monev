@@ -10,7 +10,7 @@
                          </div>
                          <div class="d-flex gap-2">
                             <a href="{{ route('monev.create') }}" class="btn btn-success fw-bold">+ Tambah Monev Singkat</a>
-                             <a href="" class="btn btn-success px-3 py-1 fw-bold">Eksport Excel</a>
+                             <a href="{{ route('monev.export') }}" class="btn btn-success px-3 py-1 fw-bold">Eksport Excel</a>
                          </div>
                      </div>
                  </div>

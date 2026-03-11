@@ -31,6 +31,8 @@ class IzinDimiliki extends Model
     ];
 
 
+
+
     public function monev(){
 
         return $this->belongsTo(Monev::class, 'id', 'id_bap');

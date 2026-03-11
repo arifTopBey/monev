@@ -31,6 +31,9 @@
                         </div>
                         <label class="form-label fw-semibold mt-3">Foto 1</label>
                         <input type="file" class="form-control" name="foto_lapangan" >
+                        @error('foto_lapangan')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <!-- No Telp -->
                     <div class="mb-4">
@@ -46,7 +49,10 @@
                             @endif
                         </div>
                         <label class="form-label fw-semibold">Foto 2</label>
-                        <input type="file" name="foto_lapangan2" class="form-control" name="no_telp">
+                        <input type="file" name="foto_lapangan2" class="form-control">
+                         @error('foto_lapangan2')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <!-- No Telp -->
                     <div class="mb-4">
@@ -63,12 +69,18 @@
                         </div>
                         <label class="form-label fw-semibold">Foto 3</label>
                         <input type="file" class="form-control" name="foto_lapangan3" >
+                        @error('foto_lapangan3')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                      <div class="form-group mb-3">
                         <label for="telepon" class="mb-1 fw-bold">Lokasi</label>
                         <input name="location" type="text" value="{{ $monev->location }}" id="telepon" class="form-control"
                             placeholder="Masukan nomor telepon" />
+                        @error('location')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label class="mb-1 fw-bold">Pilih Titik Lokasi di Peta</label>
@@ -78,16 +90,25 @@
                     <div class="form-group mb-3">
                         <label for="latitude" class="mb-1 fw-bold">Latitude</label>
                         <input name="latitude" type="text" id="latitude" value="{{ $monev->latitude }}" class="form-control" readonly />
+                         @error('latitude')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="longitude" class="mb-1 fw-bold">Longitude</label>
                         <input name="longitude" type="text" value="{{ $monev->longitude }}" id="longitude" class="form-control" readonly />
+                         @error('longitude')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="radius" class="mb-1 fw-bold">Radius (Meter)</label>
                         <input name="radius" type="number" id="radius" value="{{ $monev->radius }}" class="form-control" value="100" />
+                        @error('radius')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Button -->

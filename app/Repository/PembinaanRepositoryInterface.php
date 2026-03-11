@@ -17,7 +17,7 @@ class PembinaanRepositoryInterface implements PembinaanInterface {
             if($search){
                 $query->search($search);
             }
-        })->with(['izinDimiliki']);
+        });
 
         if (!empty($filters['start_date'])) {
         $query->whereDate('dateCreated', '>=', $filters['start_date']);

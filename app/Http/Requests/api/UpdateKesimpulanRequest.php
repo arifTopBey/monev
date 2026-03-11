@@ -20,4 +20,15 @@ class UpdateKesimpulanRequest extends FormRequest
             'kesimpulan_saran' => 'nullable|string|max:1000',
         ];
     }
+
+     public function messages(): array
+    {
+        return [
+            'hasil_pemeriksaan.string' => 'Hasil pemeriksaan harus berupa teks.',
+            'hasil_pemeriksaan.max' => 'Hasil pemeriksaan maksimal 1000 karakter.',
+
+            'kesimpulan_saran.string' => 'Kesimpulan dan saran harus berupa teks.',
+            'kesimpulan_saran.max' => 'Kesimpulan dan saran maksimal 1000 karakter.',
+        ];
+    }
 }

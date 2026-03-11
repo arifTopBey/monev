@@ -15,19 +15,19 @@
                 </div>
                 <div class="col-md-12">
 
-                    @if ($errors->any())
-    <div class="alert alert-danger shadow-sm">
-        <div class="d-flex align-items-center mb-2">
-            <i class="fas fa-exclamation-triangle me-2"></i>
-            <strong class="fs-6">Terjadi kesalahan input:</strong>
-        </div>
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                    <!-- @if ($errors->any())
+                        <div class="alert alert-danger shadow-sm">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong class="fs-6">Terjadi kesalahan input:</strong>
+                            </div>
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif -->
 
                 <form action="{{ route('admin.monev.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -35,38 +35,62 @@
                         <label for="company" class="mb-1 fw-bold">Nama Perusahaan</label>
                         <input name="nama_perusahaan" type="text" id="company" class="form-control"
                             placeholder="Masukan Nama Perusahaan" required/>
+                         @error('nama_perusahaan')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label for="company_address" class="mb-1 fw-bold">Alamat Perusahaan</label>
                         <input name="alamat_perusahaan" type="text" id="company_address" class="form-control"
                             placeholder="Masukan Alamat Perusahaan" />
+                        @error('alamat_perusahaan')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label for="usaha" class="mb-1 fw-bold">Bidang Usaha</label>
                         <input name="bidang_usaha" type="text" id="usaha" class="form-control"
                             placeholder="Masukan Bidang Usaha Perusahaan" required/>
+                         @error('bidang_usaha')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label for="foto_perusahaan" class="mb-1 fw-bold">Foto 1 Wajib</label>
                         <input name="foto_lapangan" type="file" id="foto_perusahaan" class="form-control" required/>
+                         @error('foto_perusahaan')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label for="foto_perusahaan2" class="mb-1 fw-bold">Foto 2 Optional</label>
                         <input name="foto_lapangan2" type="file" id="foto_perusahaan2" class="form-control" />
+                        @error('foto_perusahaan2')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label for="foto_perusahaan3" class="mb-1 fw-bold">Foto 3 Optional</label>
                         <input name="foto_lapangan3" type="file" id="foto_perusahaan3" class="form-control" />
+                        @error('foto_perusahaan3')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label for="telepon" class="mb-1 fw-bold">Nomor Telepon/Hp </label>
                         <input name="no_telp" type="text" id="telepon" class="form-control"
                             placeholder="Masukan nomor telepon" />
+                         @error('no_telp')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label for="telepon" class="mb-1 fw-bold">Lokasi</label>
                         <input name="location" type="text" id="telepon" class="form-control"
-                            placeholder="Masukan nomor telepon" />
+                            placeholder="Masukan lokasi perusahaan" />
+                        @error('location')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <label class="mb-1 fw-bold">Pilih Titik Lokasi di Peta</label>
@@ -76,16 +100,25 @@
                     <div class="form-group mb-3">
                         <label for="latitude" class="mb-1 fw-bold">Latitude</label>
                         <input name="latitude" type="text" id="latitude" class="form-control" readonly />
+                         @error('latitude')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="longitude" class="mb-1 fw-bold">Longitude</label>
                         <input name="longitude" type="text" id="longitude" class="form-control" readonly />
+                        @error('longitude')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="radius" class="mb-1 fw-bold">Radius (Meter)</label>
                         <input name="radius" type="number" id="radius" class="form-control" value="100" />
+                        @error('radius')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group mb-3">
                         <button type="submit" class="btn-primary btn">Submit</button>

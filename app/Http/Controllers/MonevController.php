@@ -13,6 +13,9 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
+use App\Exports\MonevExport;
+use App\Exports\PembinaanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MonevController extends Controller
 {
@@ -196,8 +199,6 @@ class MonevController extends Controller
 
     }
 
-
-
     public function showHasilFoto($id_bap){
 
         $monev = $this->monevInterface->getById($id_bap);
@@ -230,8 +231,6 @@ class MonevController extends Controller
          }
 
     }
-
-
 
     public function updateLKPM(int $id_bap){
         try{    
@@ -313,9 +312,6 @@ class MonevController extends Controller
         }
     }
 
-
-
-
     public function downloadWord(int $id_bap){
         $monev = Monev::findOrFail($id_bap);
 
@@ -359,16 +355,59 @@ class MonevController extends Controller
         }
     }
 
-    // foto private
+    // ========== foto private ===============
     public function showFoto($path){
 
-        if (!Storage::disk('local')->exists($path)) {
+        //  $filePath = 'private/uploads/' . $path;
+
+        $filePath = '';
+
+            if (str_contains($path, 'uploads/')) {
+                $filePath = $path;
+            } else {
+                
+                $filePath = '/uploads/' . $path;
+            }
+
+        //  yang di dalam exits it path
+        if (!Storage::disk('local')->exists($filePath)) {
             abort(404);
         }
 
-        // Mengembalikan file sebagai response gambar
-        return Storage::disk('local')->response($path);
+        return Storage::disk('local')->response($filePath);
     }
+    // ========== batas foto private ==========
+
+    // ============  path dari ci ke larave   ===============
+
+    //     function fotoLapanganPath($file)
+    // {
+    //     if (!$file) {
+    //         return null;
+    //     }
+
+    //     // jika file dari Laravel
+    //     if (str_contains($file, 'uploads/')) {
+    //         return $file;
+    //     }
+
+    //     // jika file dari CI
+    //     return 'uploads/' . $file;
+    // }
+
+    // ===========   batas path dari ci ke laravel ==========
+
+    public function export()
+{
+    return Excel::download(new MonevExport, 'data_monev.xlsx');
+    }
+
+    public function exportPembinaan()
+{
+    return Excel::download(new PembinaanExport, 'data_pembinaan.xlsx');
+}
+
+
 
 
 

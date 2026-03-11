@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Interface\PembinaanInterface;
 use Exception;
 use Illuminate\Http\Request;
+use App\Exports\RealisasiPembinaanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RealisasiPembinaanController extends Controller
 {
@@ -58,4 +60,9 @@ class RealisasiPembinaanController extends Controller
         }
 
     }
+
+    public function export()
+{
+    return Excel::download(new RealisasiPembinaanExport, 'realisasi_pembinaan.xlsx');
+}
 }

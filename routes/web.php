@@ -63,18 +63,9 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('/monev/delete/{id_bap}', [MonevController::class, 'destroy'])->name('admin.monev.destroy');
 
 
-    // gambar
+    // gambar private
     Route::get('/storage/private/{path}', [MonevController::class, 'showFoto'])->where('path', '.*')->name('showFoto.private');
-
-    // public function showHasilKesimpulan(){
-
-    //     return view('admin.monev.editKeteranganPerusahaan');
-    // }
-
-    // public function showHasilFoto(){
-    //     return view('admin.monev.EditFotoLokasi');
-    // }
-
+    // gambar private
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
@@ -83,6 +74,10 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/profile/edit-password/{id}', [AuthController::class, 'editPassword'])->name('admin.auth.edit.password');
     Route::put('/profile/update-password/{id}',[AuthController::class, 'updatePassword'])->name('admin.auth.update.password');
+
+    Route::get('/realisasi-pembinaan/export', [RealisasiPembinaanController::class,'export'])->name('realisasi.pembinaan.export');
+    Route::get('/monev/export', [MonevController::class,'export'])->name('monev.export');
+    Route::get('/pembinaan/export', [MonevController::class,'exportPembinaan'])->name('pembinaan.export');
 
 
 });

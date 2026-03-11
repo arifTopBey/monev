@@ -27,12 +27,18 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Hasil Pemeriksaan</label>
                         <textarea class="form-control" name="hasil_pemeriksaan" rows="5">{{ $monev->hasil_pemeriksaan }}</textarea>
+                        @error('hasil_pemeriksaan')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Nama -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Hasil Kesimpulan dan Saran</label>
                         <textarea class="form-control" name="kesimpulan_saran" rows="5">{{ $monev->kesimpulan_saran }}</textarea>
+                        @error('kesimpulan_saran')
+                            <span class="fw-bold mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
 

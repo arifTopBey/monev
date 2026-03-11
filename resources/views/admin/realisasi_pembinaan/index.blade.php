@@ -9,7 +9,7 @@
                              <h4>Realisasi Pembinaan List</h4>
                          </div>
                          <div class="">
-                             <a href="" class="btn btn-success px-3 py-1 fs-5">Eksport Excel</a>
+                             <a href="{{ route('realisasi.pembinaan.export') }}" class="btn btn-success px-3 py-1 fs-5">Eksport Excel</a>
                          </div>
                      </div>
                  </div>

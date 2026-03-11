@@ -78,8 +78,11 @@ class MonevRepositoryInterface implements MonevInterface
             $monev->longitude = $data['longitude'];
             $monev->radius = $data['radius'];
 
-
             $monev->save();
+
+            IzinDimiliki::create([
+                'id_bap' => $monev->id_bap
+            ]);
 
             DB::commit();
 
@@ -238,12 +241,17 @@ class MonevRepositoryInterface implements MonevInterface
             }
 
 
-
-            // Cek apakah ada input foto_lapangan baru
             if (isset($data['foto_lapangan'])) {
 
-                if ($monev->foto_lapangan && Storage::disk('local')->exists($monev->foto_lapangan)) {
-                    Storage::disk('local')->delete($monev->foto_lapangan);
+                $checkPath = '';
+                if(str_contains($monev->foto_lapangan, 'uploads/')){
+                    $checkPath = $monev->foto_lapangan;
+                }else{
+                     $checkPath = '/uploads/' . $monev->foto_lapangan;
+                }
+
+                if ($monev->foto_lapangan && Storage::disk('local')->exists($checkPath)) {
+                    Storage::disk('local')->delete($checkPath);
                 }
                 $newPath = $data['foto_lapangan']->store('uploads', 'local');
                 // 3. Update path di database
@@ -252,15 +260,33 @@ class MonevRepositoryInterface implements MonevInterface
 
 
             if (isset($data['foto_lapangan2'])) {
-                if ($monev->foto_lapangan2 && Storage::disk('local')->exists($monev->foto_lapangan2)) {
-                    Storage::disk('local')->delete($monev->foto_lapangan2);
+
+                // cek path foto dari ci atau laravel
+                $checkPath2 = '';
+                if(str_contains($monev->foto_lapangan2, 'uploads/')){
+                    $checkPath2 = $monev->foto_lapangan2;
+                }else{
+                     $checkPath2 = '/uploads/' . $monev->foto_lapangan2;
+                }
+
+                if ($monev->foto_lapangan2 && Storage::disk('local')->exists($checkPath2)) {
+                    Storage::disk('local')->delete($checkPath2);
                 }
                 $monev->foto_lapangan2 = $data['foto_lapangan2']->store('uploads', 'local');
             }
 
             if (isset($data['foto_lapangan3'])) {
-                if ($monev->foto_lapangan3 && Storage::disk('local')->exists($monev->foto_lapangan3)) {
-                    Storage::disk('local')->delete($monev->foto_lapangan23);
+
+                // cek path foto dari ci atau laravel
+                 $checkPath3 = '';
+                if(str_contains($monev->foto_lapangan3, 'uploads/')){
+                    $checkPath3 = $monev->foto_lapangan3;
+                }else{
+                     $checkPath3 = '/uploads/' . $monev->foto_lapangan3;
+                }
+
+                if ($monev->foto_lapangan3 && Storage::disk('local')->exists($checkPath3)) {
+                    Storage::disk('local')->delete($checkPath3);
                 }
                 $monev->foto_lapangan3 = $data['foto_lapangan3']->store('uploads', 'local');
             }
@@ -376,11 +402,11 @@ class MonevRepositoryInterface implements MonevInterface
                 // Jika tidak ada, buat baru dan langsung set il = 1
                 $izin = new IzinDimiliki();
                 $izin->id_bap = $id_bap;
-                $izin->sertifikat_standart = 1;
+                $izin->sertifikat_standar = 1;
             } else {
                 // Jika ada, toggle status
-                $currentValue = $izin->sertifikat_standart ?? 0;
-                $izin->il = ($currentValue == 1) ? 0 : 1;
+                $currentValue = $izin->sertifikat_standar ?? 0;
+                $izin->sertifikat_standar = ($currentValue == 1) ? 0 : 1;
             }
 
             $izin->save();
@@ -391,11 +417,6 @@ class MonevRepositoryInterface implements MonevInterface
             throw new Exception($exception->getMessage());
         }
     }
-
-
-
-
-
 
     public function delete($id_bap)
     {
