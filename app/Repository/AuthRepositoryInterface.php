@@ -50,8 +50,7 @@ class AuthRepositoryInterface implements AuthIterface{
 
     }
 
-    // Logout
-    public function revokeToken($user){
+    public function logout($user){
         return $user->currentAccessToken()->delete();
     }
 }

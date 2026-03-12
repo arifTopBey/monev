@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginStoreRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Interface\AuthIterface;
@@ -25,12 +26,13 @@ class AuthController extends Controller
         return view('frontend.auth.index');
     }
 
-    public function login(Request $request){
+    public function login(LoginStoreRequest $request){
 
-        $credentials = $request->validate([
-            'email' => 'required|email|max:255',
-            'password' => 'required|max:255',
-        ]);
+        $credentials = $request->validated();
+        // $credentials = $request->validate([
+        //     'email' => 'required|email|max:255',
+        //     'password' => 'required|max:255',
+        // ]);
 
         // Gunakan repository untuk cek kecocokan data
         $user = $this->authRepositoryInterface->checkCredentials($credentials);

@@ -12,7 +12,6 @@ class RencanaRealisasiApiController extends Controller
 {
     private RencanaRealisasiInterface $rencanaRealisasiInterface;
 
-
     public function __construct(RencanaRealisasiInterface $rencanaRealisasiInterface){
         $this->rencanaRealisasiInterface = $rencanaRealisasiInterface;
     }

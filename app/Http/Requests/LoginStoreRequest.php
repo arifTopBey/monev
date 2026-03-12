@@ -20,4 +20,16 @@ class LoginStoreRequest extends FormRequest
             'password' => 'required|string|max:255'
         ];
     }
+    public function messages(): array
+{
+    return [
+        'email.required' => 'Email wajib diisi.',
+        'email.email' => 'Format email tidak valid.',
+        'email.max' => 'Email maksimal 255 karakter.',
+
+        'password.required' => 'Password wajib diisi.',
+        'password.string' => 'Password harus berupa teks.',
+        'password.max' => 'Password maksimal 255 karakter.',
+    ];
+}
 }

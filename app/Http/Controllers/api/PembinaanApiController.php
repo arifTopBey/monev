@@ -93,4 +93,28 @@ class PembinaanApiController extends Controller
             return ResponseHelper::jsonResponse(false, $exception->getMessage(), null, 500);
         }
     }
+
+    public function updateStatusPembinaan($id){
+
+        try{
+            $pembinaan = $this->pembinaanInterface->getById($id);
+
+            // klo engga ketemu idnya
+            if(!$pembinaan){
+                return ResponseHelper::jsonResponse(false, 'Data Pembinaan Tidak Ditemukan',null, 404);
+            }
+
+            $pembinaan = $this->pembinaanInterface->updateStatusPembinaan($id);
+            // jika ada idnya
+            return ResponseHelper::jsonResponse(true, 'Data Pembinaan Berhasil diupdate', new PembinaanResource($pembinaan), 200);
+
+
+        }catch(Exception $exception){
+            return ResponseHelper::jsonResponse(false, $exception->getMessage(), null, 500);
+        }
+
+    }
+
+    
+
 }

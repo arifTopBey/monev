@@ -124,10 +124,17 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        @if ($monev->foto_lapangan)
                         <div class="col-md-6 mb-3">
                             <img style="height: 180px; width: 180px;" src="{{ route('showFoto.private', $monev->foto_lapangan) }}"
                                 class="img-fluid rounded shadow-sm" alt="Foto Lokasi 1">
                         </div>
+                        @else
+                        <div class="p-3 bg-light border rounded text-center" style="height: 180px; width: 180px;">
+                             <small class="text-muted">Foto tidak tersedia</small>
+                        </div>
+                        @endif
+    
                         <div class="col-md-6 mb-3">
                             @if ($monev->foto_lapangan2)
                                 <img height="180" width="180"

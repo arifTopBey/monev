@@ -184,6 +184,7 @@ class MonevController extends Controller
         try{
 
             $monev = $this->monevInterface->getById($id_bap);
+            
 
             if(!$monev){
                 return redirect()->route('admin.monev.detail', ['id_bap' => $id_bap])->withErrors(['error' => 'Data tidak ditemukan']);

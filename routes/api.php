@@ -14,9 +14,7 @@ use App\Http\Controllers\api\StandartProductApiController;
 use App\Http\Controllers\api\StandartUsahaApiController;
 use App\Http\Controllers\api\TenagaKerjaApiController;
 use App\Http\Controllers\api\TimMonitoringApiController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -36,10 +34,17 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/pembinaan/create', [PembinaanApiController::class, 'store'])->name('api.pembinaan.store');
     Route::delete('/pembinaan/{id}', [PembinaanApiController::class, 'destroy'])->name('api.pembinaan.destroy');
 
+    Route::put('/pembinaan/realisasi/{id}', [PembinaanApiController::class, 'updateStatusPembinaan'])->name('api.pembinaan.realisasi.status.update');
 
     Route::get('/monev', [MonevApiController::class, 'index'])->name('monev.list');
     Route::get('/monev/paginasi', [MonevApiController::class, 'getAllPaginate'])->name('api.monev.paginate');
     Route::get('/monev/{id_bap}', [MonevApiController::class, 'show'])->name('api.monev.show');
+
+    Route::put('/monev/realisasi-lkpm/{id}', [MonevApiController::class, 'updateLKPM'])->name('api.monev.realisasi.update.lkpm');
+    Route::put('/monev/realisasi-lokasi/{id}', [MonevApiController::class, 'updatePKKPR'])->name('api.monev.realisasi.update.pkkpr');
+    Route::put('/monev/realisasi-lingkungan/{id}', [MonevApiController::class, 'updateIzinLingungan'])->name('api.monev.realisasi.update.lingkungan');
+    Route::put('/monev/realisasi-sertifikat-standart/{id}', [MonevApiController::class, 'updateSertifikatStandart'])->name('api.monev.realisasi.update.sertifikat.standart');
+    
 
     Route::get('/monev/edit-keterangan-umum/{id_bap}', [MonevApiController::class, 'showKeteranganUmum'])->name('api.monev.umum');
     Route::put('/monev/update-keterangan-umum/{id_bap}', [MonevApiController::class, 'updateKeteranganUmum'])->name('api.monev.update.umum');
@@ -54,13 +59,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/monev/update-foto/{id_bap}', [MonevApiController::class, 'updateFoto'])->name('api.monev.update.foto');
 
     // foto private
-    Route::get('/v1/foto/{path}', function ($path) {
-
-        if (!Storage::disk('local')->exists($path)) {
-            return response()->json(['message' => 'File tidak ditemukan'], 404);
-        }
-        return Storage::disk('local')->response($path);
-    })->where('path', '.*');
+    Route::get('/v1/foto/{filename}',[MonevApiController::class, 'photoApi'])->where('path', '.*');
+    // batas foto private
 
     Route::get('/agenda', [AgendaApiController::class, 'index'])->name('api.agenda.list');
     Route::post('/agenda/create', [AgendaApiController::class, 'store'])->name('api.agenda.create');
@@ -77,4 +77,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::get('/rencana-realisasi', [RencanaRealisasiApiController::class, 'index'])->name('api.rencana.realisasi.list');
     Route::get('/tim-monitoring', [TimMonitoringApiController::class, 'index'])->name('api.tim.monitoring.list');
+
+    Route::post('/logout', [AuthApiController::class, 'logout'])->name('api.auth.logout');
+    
 });

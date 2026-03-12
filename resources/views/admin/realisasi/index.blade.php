@@ -6,10 +6,11 @@
                 <div class="col-md-12">
                     <div class="d-flex border justify-content-between py-3 px-2 mt-3 bg-white rounded-3">
                         <div class="">
-                            <h4>Pembinaan List</h4>
+                            <h4>Data dan Realisasi Monev</h4>
                         </div>
                         <div class="">
-                            <a href="{{ route('pembinaan.export') }}" class="btn btn-success px-3 py-1 fs-5">Eksport Excel</a>
+                            <a href="{{ route('pembinaan.export') }}" class="btn btn-success px-3 py-1 fs-5">Eksport
+                                Excel</a>
                         </div>
                     </div>
                 </div>
@@ -84,7 +85,41 @@
                                     <td>{{ $monev->alamat_perusahaan }}</td>
                                     <td>{{ $monev->nilai_investasi }}</td>
                                     <td>{{ $monev->jumlah_tenaga_kerja_asing + $monev->jumlah_tenaga_kerja_indonesia }}</td>
-                                    <td class="w-full">LLKPL</td>
+                                    <td class="w-full">
+                                        <div class="d-flex ">
+                                            <p class="fw-bold"> PPKPR</p>
+                                            <div id="pkkpr-p-{{ $monev->id_bap }}">
+                                                @if ($monev->izinDimiliki && $monev->izinDimiliki->pkkpr == 1)
+                                                    <p class="text-center fw-bold ms-1">= ✅</p>
+                                                @else
+                                                    <p class="text-center fw-bold ms-1">= ❌</p>
+                                                @endif
+                                             </div>
+                                        </div>
+                                        <div class="d-flex ">
+                                            <p class="fw-bold"> LINGKUNGAN</p>
+
+                                            <div class="" id="lingkungan-p-{{ $monev->id_bap }}">
+                                                @if ($monev->izinDimiliki && $monev->izinDimiliki->il == 1)
+                                                    <p class="text-center fw-bold ms-1">= ✅</p>
+                                                @else
+                                                    <p class="text-center fw-bold ms-1">= ❌</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="d-flex ">
+                                            <p class="fw-bold"> Sertifikat</p>
+                                            <div id="sertifikat-p-{{ $monev->id_bap }}">
+                                                @if ($monev->izinDimiliki && $monev->izinDimiliki->sertifikat_standar == 1)
+                                                    <p class="text-center fw-bold ms-1">= ✅</p>
+                                                @else
+                                                    <p class="text-center fw-bold ms-1">= ❌</p>
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    </td>
+
                                     <!-- lkpm -->
                                     <td>
                                         @if (!$monev->izinLKPM)
@@ -105,7 +140,7 @@
                                                 @if ($monev->izinLKPM->statusLapor == 1)
                                                     <p class="text-center fw-bold">✅</p>
                                                 @else
-                                                    <p class="text-center fw-bold">❌</p>
+                                                    <p class="text-center fw-bold"> ❌</p>
                                                 @endif
                                             </div>
                                         @endif
@@ -115,7 +150,7 @@
                                     <!-- izin pkkpr -->
                                     <td>
 
-                            
+
                                         <button data-id="{{ $monev->id_bap }}" type="button"
                                             class="btn-update-pkkpr btn btn-info text-white text-nowrap">
                                             Ganti Status
@@ -134,7 +169,7 @@
 
                                     <!-- izin lingkungan -->
                                     <td>
-                                       
+
                                         <button data-id="{{ $monev->id_bap }}" type="button"
                                             class="btn-update-lingkungan btn btn-info text-white text-nowrap">
                                             Ganti Status
@@ -143,9 +178,9 @@
                                         {{-- Container ID ini HARUS selalu ada di luar @if agar terbaca JS --}}
                                         <div id="status-icon-lingkungan-{{ $monev->id_bap }}" class="mt-2">
                                             @if ($monev->izinDimiliki && $monev->izinDimiliki->il == 1)
-                                                    <p class="text-center fw-bold">✅</p>
+                                                <p class="text-center fw-bold">✅</p>
                                             @else
-                                                    <p class="text-center fw-bold">❌</p>
+                                                <p class="text-center fw-bold">❌</p>
                                             @endif
                                         </div>
                                     </td>
@@ -153,9 +188,9 @@
 
                                     <!-- izin sertifikat standar -->
                                     <td>
-                                       
 
-                                         <button data-id="{{ $monev->id_bap }}" type="button"
+
+                                        <button data-id="{{ $monev->id_bap }}" type="button"
                                             class="btn-update-sertifikat-standart btn btn-info text-white text-nowrap">
                                             Ganti Status
                                         </button>
@@ -163,9 +198,9 @@
                                         {{-- Container ID ini HARUS selalu ada di luar @if agar terbaca JS --}}
                                         <div id="status-icon-sertifikat-standart-{{ $monev->id_bap }}" class="mt-2">
                                             @if ($monev->izinDimiliki && $monev->izinDimiliki->sertifikat_standar == 1)
-                                                    <p class="text-center fw-bold">✅</p>
+                                                <p class="text-center fw-bold">✅</p>
                                             @else
-                                                    <p class="text-center fw-bold">❌</p>
+                                                <p class="text-center fw-bold">❌</p>
                                             @endif
                                         </div>
                                     </td>

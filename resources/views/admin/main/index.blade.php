@@ -339,7 +339,7 @@
         document.querySelectorAll('.btn-update-lkpm').forEach(button => {
             button.addEventListener('click', function () {
                 const idBap = this.getAttribute('data-id');
-                const iconContainer = document.getElementById(`status-icon-${idBap}`);
+                // const iconContainer = document.getElementById(`status-icon-${idBap}`);
 
                 // Beri efek loading sederhana (opsional)
                 this.innerText = 'Loading...';
@@ -389,8 +389,7 @@
         document.querySelectorAll('.btn-update-pkkpr').forEach(button => {
             button.addEventListener('click', function () {
                 const idBap = this.getAttribute('data-id');
-                const iconContainerPkkpr = document.getElementById(`status-icon-pkkpr-${idBap}`);
-                console.log(iconContainerPkkpr);
+              
 
                 // Beri efek loading sederhana (opsional)
                 this.innerText = 'Loading...';
@@ -412,13 +411,15 @@
                         if (data.success) {
                             // Ambil status terbaru dari hasil update di database
                             const updatedStatusKppr = data.data.pkkpr;
-                            console.log(updatedStatusKppr)
                             const iconContainerPkkpr = document.getElementById(`status-icon-pkkpr-${idBap}`);
+                            const pkkpParagraf = document.getElementById(`pkkpr-p-${idBap}`);
 
                             if (parseInt(updatedStatusKppr) == 1) {
                                 iconContainerPkkpr.innerHTML = '<p class="text-center fw-bold">✅</p>';
+                                pkkpParagraf.innerHTML = '<p class="text-center fw-bold">✅</p>';
                             } else {
                                 iconContainerPkkpr.innerHTML = '<p class="text-center fw-bold">❌</p>';
+                                pkkpParagraf.innerHTML = '<p class="text-center fw-bold">❌</p>';
                             }
                         }
                     })
@@ -441,9 +442,8 @@
         document.querySelectorAll('.btn-update-lingkungan').forEach(button => {
             button.addEventListener('click', function () {
                 const idBap = this.getAttribute('data-id');
-                const iconContainerLingkungan = document.getElementById(`btn-update-lingkungan-${idBap}`);
-                // console.log(iconContainerLingkungan);
 
+                
                 // Beri efek loading sederhana (opsional)
                 this.innerText = 'Loading...';
                 this.disabled = true;
@@ -465,11 +465,14 @@
                             // Ambil status terbaru dari hasil update di database
                             const updateStatusLingkungan = data.data.il;
                             const iconContainerLingkungan = document.getElementById(`status-icon-lingkungan-${idBap}`);
+                            const lingkunganParagraf = document.getElementById(`lingkungan-p-${idBap}`);
 
                             if (parseInt(updateStatusLingkungan) == 1) {
                                 iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">✅</p>';
+                                lingkunganParagraf.innerHTML = '<p class="text-center fw-bold">= ✅</p>';
                             } else {
                                 iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">❌</p>';
+                                lingkunganParagraf.innerHTML = '<p class="text-center fw-bold">= ❌</p>';
                             }
                         }
                     })
@@ -491,10 +494,9 @@
         document.querySelectorAll('.btn-update-sertifikat-standart').forEach(button => {
             button.addEventListener('click', function () {
                 const idBap = this.getAttribute('data-id');
-                // const iconContainerLingkungan = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
-                // console.log(iconContainerLingkungan);
+                
 
-                // Beri efek loading sederhana (opsional)
+               
                 this.innerText = 'Loading...';
                 this.disabled = true;
 
@@ -514,12 +516,15 @@
                         if (data.success) {
                             // Ambil status terbaru dari hasil update di database
                             const updateSertifkat = data.data.sertifikat_standar;
-                            const iconContainerLingkungan = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
+                            const iconContainerSertifikat = document.getElementById(`status-icon-sertifikat-standart-${idBap}`);
+                            const sertifikatParagraf = document.getElementById(`sertifikat-p-${idBap}`);
 
                             if (parseInt(updateSertifkat) == 1) {
-                                iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">✅</p>';
+                                iconContainerSertifikat.innerHTML = '<p class="text-center fw-bold">✅</p>';
+                                sertifikatParagraf.innerHTML = '<p class="text-center fw-bold"> = ✅</p>';
                             } else {
-                                iconContainerLingkungan.innerHTML = '<p class="text-center fw-bold">❌</p>';
+                                iconContainerSertifikat.innerHTML = '<p class="text-center fw-bold">❌</p>';
+                                sertifikatParagraf.innerHTML = '<p class="text-center fw-bold"> = ❌</p>';
                             }
                         }
                     })

@@ -328,7 +328,13 @@ class MonevRepositoryInterface implements MonevInterface
             $lkpm->save();
 
             DB::commit();
-            return $lkpm;
+
+            if (request()->is('api/*') || request()->segment(1) == 'api') {
+                return $monev;
+            }else{
+                return $lkpm;
+            }
+
         } catch (Exception $exception) {
             DB::rollBack();
             throw new Exception($exception->getMessage());
@@ -341,6 +347,7 @@ class MonevRepositoryInterface implements MonevInterface
         DB::beginTransaction();
         try {
 
+            $monev = Monev::where('id_bap', $id_bap)->first();
             $izin = IzinDimiliki::where('id_bap', $id_bap)->first();
 
             if (!$izin) {
@@ -351,16 +358,25 @@ class MonevRepositoryInterface implements MonevInterface
                 // Jika tidak ada, buat baru
                 $izin = new IzinDimiliki();
                 $izin->id_bap = $id_bap;
-                $izin->pkkpr = 0; // Karena awalnya null (dianggap 0), maka targetnya jadi 1
+                // $izin->pkkpr = 0; 
+                $izin->pkkpr = 1; 
             } else {
                 // Jika ada, toggle status
                 $currentValue = $izin->pkkpr ?? 0;
-                $izin->pkkpr = ($currentValue == 1) ? 0 : 1;
+                // $izin->pkkpr = ($currentValue == 1) ? 0 : 1;
+                $izin->pkkpr = $izin->pkkpr == 1 ? 0 : 1;
+
             }
 
             $izin->save();
             DB::commit();
-            return $izin;
+
+            if (request()->is('api/*') || request()->segment(1) == 'api') {
+                return $monev;
+            }else{
+                return $izin;
+           }
+
         } catch (Exception $exception) {
             DB::rollBack();
             throw new Exception($exception->getMessage());
@@ -371,6 +387,8 @@ class MonevRepositoryInterface implements MonevInterface
     {
         DB::beginTransaction();
         try {
+
+            $monev = Monev::where('id_bap', $id_bap)->first();
             $izin = IzinDimiliki::where('id_bap', $id_bap)->first();
 
             if (!$izin) {
@@ -386,7 +404,13 @@ class MonevRepositoryInterface implements MonevInterface
 
             $izin->save();
             DB::commit();
-            return $izin;
+
+            if (request()->is('api/*') || request()->segment(1) == 'api') {
+                return $monev;
+            }else{
+                return $izin;
+           }
+
         } catch (Exception $exception) {
             DB::rollBack();
             throw new Exception($exception->getMessage());
@@ -396,6 +420,8 @@ class MonevRepositoryInterface implements MonevInterface
     public function updateSertifikatStandart(int $id_bap){
         DB::beginTransaction();
         try {
+
+            $monev = Monev::where('id_bap', $id_bap)->first();
             $izin = IzinDimiliki::where('id_bap', $id_bap)->first();
 
             if (!$izin) {
@@ -411,7 +437,13 @@ class MonevRepositoryInterface implements MonevInterface
 
             $izin->save();
             DB::commit();
-            return $izin;
+
+            if (request()->is('api/*') || request()->segment(1) == 'api') {
+                return $monev;
+            }else{
+                return $izin;
+           }
+
         } catch (Exception $exception) {
             DB::rollBack();
             throw new Exception($exception->getMessage());

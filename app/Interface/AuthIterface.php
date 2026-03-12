@@ -12,5 +12,5 @@ interface AuthIterface {
     public function generateToken($user,  $deviceName = null);
 
     // Logout
-    public function revokeToken($user);
+    public function logout($user);
 }

@@ -10,6 +10,4 @@ class RealiasasiController extends Controller
 
         return view('admin.realisasi.index');
     }
-
-
 }

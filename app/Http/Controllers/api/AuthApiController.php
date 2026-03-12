@@ -41,7 +41,15 @@ class AuthApiController extends Controller
             'token' => $tokenData['plainTextToken'],
             'expires_at' => $expiresAt ? $expiresAt->toDateTimeString() : null,
         ]);
-
-
     }
+
+    public function logout(Request $request)
+{
+    $this->authRepositoryInterface->logout($request->user());
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Logout berhasil'
+    ]);
+}
 }

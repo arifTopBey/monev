@@ -20,7 +20,7 @@ class PembinaanResource extends JsonResource
             'alamatPerusahaan' => $this->alamatPerusahaan,
             'namaPeserta' => $this->namaPeserta,
             'noTelpHp' => $this->noTelpHp,
-            'agendaPembinaanId' => $this->agendaPembinaanId,
+            'agenda_pembinaan' => new AgendaPembinaanResource($this->Agenda),
             'tglPembinaan' => $this->tglPembinaan,
             'hasilPembinaan' => $this->hasilPembinaan,
             'dateCreated' => $this->dateCreated
