@@ -38,6 +38,7 @@
 
              </div>
 
+             <!-- search form and pagination -->
              <div class="row mt-3 px-1 bg-white rounded-3 py-3 border">
                  @if(session('error'))
                     <div class="alert alert-danger" role="alert">
@@ -120,7 +121,8 @@
                          {{ $data->links() }}
                      </div>
                  </div>
-             </div>
+              </div>
+             <!-- batas search dan pagination -->
          </div>
      </section>
  @endsection

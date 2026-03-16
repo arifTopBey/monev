@@ -78,6 +78,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/realisasi-pembinaan/export', [RealisasiPembinaanController::class,'export'])->name('realisasi.pembinaan.export');
     Route::get('/monev/export', [MonevController::class,'export'])->name('monev.export');
     Route::get('/pembinaan/export', [MonevController::class,'exportPembinaan'])->name('pembinaan.export');
+    Route::get('/dashboard/tki-tka/export', [MonevController::class, 'exportTkiTka'])->name('export.tki.tka');
 
 
 });

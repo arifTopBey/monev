@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Exports\MonevExport;
 use App\Exports\PembinaanExport;
+use App\Exports\TkiTkaExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MonevController extends Controller
@@ -28,6 +29,7 @@ class MonevController extends Controller
     }
 
     public function index(Request $request){
+
          $search = $request->input('search');
 
          // Tangkap input dari form Blade
@@ -401,12 +403,17 @@ class MonevController extends Controller
     public function export()
 {
     return Excel::download(new MonevExport, 'data_monev.xlsx');
-    }
+}
 
     public function exportPembinaan()
 {
     return Excel::download(new PembinaanExport, 'data_pembinaan.xlsx');
 }
+
+    public function exportTkiTka(){
+        
+        return Excel::download(new TkiTkaExport, 'data_tenaga_kerja_tki_tka.xlsx');
+    }
 
 
 

@@ -77,6 +77,8 @@
     </style>
 </head>
 
+
+
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
@@ -144,6 +146,67 @@
             })
             console.log(ctx);
         </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('chartHorizontal').getContext('2d');
+        
+        const labels = {!! json_encode($year) !!}; 
+        const dataValues = {!! json_encode($total) !!};
+
+        new Chart(ctx, {
+            type: 'bar',
+            plugins: [ChartDataLabels], // Aktifkan plugin angka di ujung
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Data',
+                    data: dataValues,
+                    backgroundColor: '#183a8f', // Warna ungu sesuai gambar
+                    borderWidth: 0,
+                    borderRadius: 4, // Membuat ujung bar sedikit membulat
+                    barThickness: 25, // Ketebalan bar
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }, // Sembunyikan legend seperti gambar
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'right',
+                        color: '#444',
+                        font: { weight: 'bold' },
+                        formatter: Math.round // Menampilkan angka bulat
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false, // Sembunyikan garis bawah (sumbu X) seperti gambar
+                        grid: { display: false }
+                    },
+                    y: {
+                        grid: { display: false }, // Sembunyikan garis grid belakang
+                        ticks: {
+                            color: '#000',
+                            font: { weight: 'bold', size: 12 }
+                        }
+                    }
+                },
+                layout: {
+                    padding: {
+                        right: 50 // Beri ruang di kanan agar angka tidak terpotong
+                    }
+                }
+            }
+        });
+    });
+</script>
     @endif
 
     <script>
