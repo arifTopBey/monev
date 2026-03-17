@@ -24,7 +24,7 @@
 
      <h5 class="text-center">Selamat Datang Di Database Monev!</h5>
      <div class="container px-3 py-2 bg-white border rounded-2">
-         <!-- <div id="mapPerusahaan" style="height: 500px; width: 100%;" class="border rounded mb-5 "></div> -->
+         <div id="mapPerusahaan" style="height: 500px; width: 100%;" class="border rounded mb-5 "></div>
 
          <div class="row">
              <div class="col-md-12">
