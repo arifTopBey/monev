@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
         crossorigin="anonymous" />
     <!--end::Third Party Plugin(OverlayScrollbars)-->
+
     <!--begin::Third Party Plugin(Bootstrap Icons)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
         crossorigin="anonymous" />
@@ -118,37 +119,88 @@
 
     <!-- piechart -->
     @if (Request::is('dashboard'))
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // 1. Inisialisasi Peta (Center ke koordinat tengah wilayah Anda, misal Jakarta)
+                // SetView([lat, lng], zoom_level)
+                const map = L.map('mapPerusahaan').setView([-6.200000, 106.816666], 10);
 
-            const ctx = document.getElementById('piechart');
+                // 2. Tambahkan Layer Peta (OpenStreetMap)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
 
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Sudah Lapor LKPM', 'Belum Lapor'],
-                    datasets: [
-                        {
-                            data: ['55', '45'],
-                            backgroundColor: ['#0d6efd', '#dc3545'],
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            psoition: 'right'
+                // 3. Ambil data dari Laravel
+                const locations = {!! json_encode($mapData) !!};
+
+                // 4. Buat Marker untuk setiap perusahaan
+                locations.forEach(function (place) {
+                    if (place.latitude && place.longitude) {
+                        L.marker([place.latitude, place.longitude])
+                            .addTo(map)
+                            .bindPopup(`<b>${place.nama_perusahaan}</b>`);
+                    }
+                });
+
+                // Opsional: Jika ingin peta otomatis menyesuaikan zoom agar semua titik terlihat
+                if (locations.length > 0) {
+                    const group = new L.featureGroup(locations.map(p => L.marker([p.latitude, p.longitude])));
+                    map.fitBounds(group.getBounds());
+                }
+            });
+        </script>
+
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        // --- KONFIGURASI PIE CHART IZIN LKPM ---
+        const ctxLKPM = document.getElementById('piechartIzinLKPM').getContext('2d');
+        
+        new Chart(ctxLKPM, {
+            type: 'pie',
+            plugins: [ChartDataLabels],
+            data: {
+                labels: ['Sudah Lapor', 'Belum Lapor'],
+                datasets: [{
+                    data: {!! json_encode($pieLKPM) !!},
+                    backgroundColor: [
+                        '#36b9cc', // Cyan/Biru Muda
+                        '#e74a3b'  // Merah
+                    ],
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: {
+                        display: true,
+                        text: 'Status Laporan LKPM',
+                        font: { size: 14, weight: 'bold' }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        font: { weight: 'bold' },
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => sum += data);
+                            if (sum === 0) return "0%";
+                            return (value * 100 / sum).toFixed(1) + "%";
                         }
                     }
                 }
-            })
-            console.log(ctx);
+            }
+        });
+    });
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -207,6 +259,216 @@
         });
     });
 </script>
+
+    <!-- piechart pkkpr -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctxPie = document.getElementById('piechartIzinLokasi').getContext('2d');
+            
+            const dataPie = {
+                labels: {!! json_encode($pieLabels) !!},
+                datasets: [{
+                    data: {!! json_encode($pieData) !!},
+                    backgroundColor: [
+                        '#4e73df', // Biru untuk Sudah Lapor
+                        '#e74a3b'  // Merah untuk Belum Lapor
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+
+            new Chart(ctxPie, {
+                type: 'pie',
+                data: dataPie,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Status Izin Lokasi (PKKPR)'
+                        },
+                        // Jika ingin memunculkan angka/persentase di dalam pie
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold' },
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => { sum += data; });
+                                let percentage = (value * 100 / sum).toFixed(1) + "%";
+                                return percentage;
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels] // Gunakan plugin datalabels agar lebih informatif
+            });
+        });
+    </script>
+    <!-- piechart pkkpr -->
+
+    <!-- piechart izin lokasi -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- KONFIGURASI PIE CHART IZIN LINGKUNGAN ---
+            const ctxLingkungan = document.getElementById('piechartIzinLingkungan').getContext('2d');
+            
+            new Chart(ctxLingkungan, {
+                type: 'pie',
+                plugins: [ChartDataLabels],
+                data: {
+                    labels: ['Sudah Lapor', 'Belum Lapor'],
+                    datasets: [{
+                        data: {!! json_encode($pieLingkungan) !!},
+                        backgroundColor: [
+                            '#1cc88a', // Hijau (Lingkungan biasanya identik dengan hijau)
+                            '#e74a3b'  // Merah
+                        ],
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: {
+                            display: true,
+                            text: 'Status Izin Lingkungan (IL)',
+                            font: { size: 14, weight: 'bold' }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold' },
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => sum += data);
+                                return (value * 100 / sum).toFixed(1) + "%";
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- batas piechart izin lokasi -->
+
+    <!-- piechart standar sertifikat -->
+     <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- KONFIGURASI PIE CHART SERTIFIKAT STANDAR ---
+        const ctxSertifikat = document.getElementById('piechartIzinSertifikat').getContext('2d');
+        
+        new Chart(ctxSertifikat, {
+            type: 'pie',
+            plugins: [ChartDataLabels],
+            data: {
+                labels: ['Sudah Lapor', 'Belum Lapor'],
+                datasets: [{
+                    data: {!! json_encode($pieSertifikat) !!},
+                    backgroundColor: [
+                        '#f6c23e', // Kuning (Warna khas sertifikat/emas)
+                        '#e74a3b'  // Merah
+                    ],
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: {
+                        display: true,
+                        text: 'Status Sertifikat Standar',
+                        font: { size: 14, weight: 'bold' }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        font: { weight: 'bold' },
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => sum += data);
+                            if (sum === 0) return "0%"; 
+                            return (value * 100 / sum).toFixed(1) + "%";
+                        }
+                    }
+                }
+            }
+        });
+    });
+     </script>
+    <!-- piechart standart sertifikat -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ambil data dari PHP
+        const rawLabels = {!! json_encode($perusahaanNames) !!};
+        const rawData = {!! json_encode($investasiValues) !!};
+
+        // Pastikan data ada
+        if (rawLabels.length === 0) {
+            console.error("Data investasi kosong!");
+            return;
+        }
+
+        const ctx = document.getElementById('chartHorizontalInvestasi').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'bar',
+            // Plugin datalabels harus dipanggil di sini jika menggunakan CDN plugin
+            plugins: [typeof ChartDataLabels !== 'undefined' ? ChartDataLabels : {}], 
+            data: {
+                labels: rawLabels,
+                datasets: [{
+                    label: 'Nilai Investasi',
+                    data: rawData,
+                    backgroundColor: '#183a8f', 
+                    borderRadius: 5,
+                    barThickness: 30
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'right',
+                        formatter: (val) => new Intl.NumberFormat('id-ID').format(val),
+                        color: '#000',
+                        font: { weight: 'bold' }
+                    }
+                },
+                scales: {
+                    x: { 
+                        beginAtZero: true, // WAJIB ada agar bar muncul dari titik nol
+                        display: false 
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#000', font: { weight: 'bold' } }
+                    }
+                },
+                layout: {
+                    padding: { right: 100 }
+                }
+            }
+        });
+    });
+</script>
+
+
     @endif
 
     <script>
