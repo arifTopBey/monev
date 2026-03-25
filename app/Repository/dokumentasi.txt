@@ -1,0 +1,230 @@
+openapi: 3.0.0
+info:
+  title: API SIM Monev
+  version: 1.0.0
+  description: Dokumentasi API untuk sistem Monitoring dan Evaluasi
+
+servers:
+  - url: http://localhost:8000/api
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  /login:
+    post:
+      summary: Login user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Login berhasil
+
+  /logout:
+    post:
+      summary: Logout user
+      responses:
+        200:
+          description: Logout berhasil
+
+  /pembinaan:
+    get:
+      summary: Get semua pembinaan
+      responses:
+        200:
+          description: Success
+
+  /pembinaan/paginasi:
+    get:
+      summary: Get pembinaan paginasi
+
+  /pembinaan/create:
+    post:
+      summary: Create pembinaan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                namaPerusahaan:
+                  type: string
+                alamatPerusahaan:
+                  type: string
+                noTlp:
+                  type: string
+                namaPeserta:
+                  type: string
+                agendaPembinaanId:
+                  type: string
+                hasilPembinaan:
+                  type: integer
+                  default: 0
+                dateCreated:
+                  type: string
+
+
+  /pembinaan/{id}:
+    delete:
+      summary: Delete pembinaan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /pembinaan/realisasi/{id}:
+    put:
+      summary: Update status pembinaan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /monev:
+    get:
+      summary: Get semua monev
+
+  /monev/paginasi:
+    get:
+      summary: Pagination monev
+
+  /monev/{id_bap}:
+    get:
+      summary: Detail monev
+      parameters:
+        - name: id_bap
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /monev/realisasi-lkpm/{id}:
+    put:
+      summary: Update LKPM
+
+  /monev/realisasi-lokasi/{id}:
+    put:
+      summary: Update PKKPR
+
+  /monev/realisasi-lingkungan/{id}:
+    put:
+      summary: Update lingkungan
+
+  /monev/realisasi-sertifikat-standart/{id}:
+    put:
+      summary: Update sertifikat standart
+
+  /monev/edit-keterangan-umum/{id_bap}:
+    get:
+      summary: Get keterangan umum
+
+  /monev/update-keterangan-umum/{id_bap}:
+    put:
+      summary: Update keterangan umum
+
+  /monev/edit-keterangan-perusahaan/{id_bap}:
+    get:
+      summary: Get keterangan perusahaan
+
+  /monev/update-keterangan-perusahaan/{id_bap}:
+    put:
+      summary: Update keterangan perusahaan
+
+  /monev/edit-hasil-kesimpulan/{id_bap}:
+    get:
+      summary: Get hasil kesimpulan
+
+  /monev/update-hasil-kesimpulan/{id_bap}:
+    put:
+      summary: Update hasil kesimpulan
+
+  /monev/edit-foto/{id_bap}:
+    get:
+      summary: Get foto
+
+  /monev/update-foto/{id_bap}:
+    put:
+      summary: Update foto
+
+  /v1/foto/{filename}:
+    get:
+      summary: Get foto private
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+
+  /agenda:
+    get:
+      summary: Get agenda
+
+  /agenda/create:
+    
+    post:
+      summary: Create agenda
+      
+
+  /izin-dimiliki:
+    get:
+      summary: Get izin dimiliki
+
+  /tenaga-kerja:
+    get:
+      summary: Get tenaga kerja
+
+  /jumlah-investasi:
+    get:
+      summary: Get jumlah investasi
+
+  /kepatuhan:
+    get:
+      summary: Get kepatuhan
+
+  /kewajiban:
+    get:
+      summary: Get kewajiban
+
+  /lkpm:
+    get:
+      summary: Get LKPM
+
+  /pemenuhan-standart-product:
+    get:
+      summary: Get standart produk
+
+  /pemenuhan-standart-usaha:
+    get:
+      summary: Get standart usaha
+
+  /rencana-realisasi:
+    get:
+      summary: Get rencana realisasi
+
+  /tim-monitoring:
+    get:
+      summary: Get tim monitoring

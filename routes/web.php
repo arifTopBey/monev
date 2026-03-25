@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MonevController;
 use App\Http\Controllers\PembinaanController;
 use App\Http\Controllers\RealisasiPembinaanController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -80,7 +81,15 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/pembinaan/export', [MonevController::class,'exportPembinaan'])->name('pembinaan.export');
     Route::get('/dashboard/tki-tka/export', [MonevController::class, 'exportTkiTka'])->name('export.tki.tka');
 
-
+   Route::middleware(['admin_only'])->group(function(){
+        Route::get('/users', [UserController::class, 'index'])->name('super.user.list');
+        Route::get('/users/create', [UserController::class, 'create'])->name('super.user.create');
+        Route::post('/users/store', [UserController::class, 'store'])->name('super.user.store');
+        Route::get('/users/{id}', [UserController::class, 'show'])->name('super.user.detail');
+        Route::put('/users/edit/{id}', [UserController::class, 'update'])->name('super.user.update');
+        Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('super.user.delete');
+   });
+    
 });
 
 

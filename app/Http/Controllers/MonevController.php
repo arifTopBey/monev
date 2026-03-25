@@ -30,7 +30,7 @@ class MonevController extends Controller
 
     public function index(Request $request){
 
-         $search = $request->input('search');
+        $search = $request->input('search');
 
          // Tangkap input dari form Blade
         $perPage = $request->input('row_per_page', 10);

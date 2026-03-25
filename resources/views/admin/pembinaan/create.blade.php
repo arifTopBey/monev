@@ -51,7 +51,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="lokasi" class="mb-1 fw-bold">Agenda Pembinaan</label>
-                        <select name="agendaPembinaanId" class="  form-control" id="show" required>
+                        <select name="agendaPembinaanId" class="form-control" id="show" required>
                             <option value="">Pilih Agenda Pembinaan</option>
                             @foreach ($agenda as $agen )
                                 <option value="{{ $agen->id }}">{{ $agen->namaAgenda }}</option>

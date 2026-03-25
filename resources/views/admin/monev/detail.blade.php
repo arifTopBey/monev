@@ -32,7 +32,7 @@
                             </tr>
                             <tr>
                                 <th>Alamat Perusahaan</th>
-                                <td>J{{ $monev->alamat_perusahaan }}</td>
+                                <td>{{ $monev->alamat_perusahaan }}</td>
                             </tr>
                             <tr>
                                 <th>Nomor Telepon & Handphone</th>
@@ -55,7 +55,7 @@
                         <table class="table table-bordered align-middle">
                             <tr>
                                 <th width="30%">Nama Perusahaan</th>
-                                <td>{{ $monev->nama_perusahaan }}</td>
+                                <td>{{ strtoupper($monev->nama_perusahaan) }}</td>
                             </tr>
                             <tr>
                                 <th>Bidang Usaha</th>
@@ -75,7 +75,7 @@
                             </tr>
                             <tr>
                                 <th>Nilai Investasi</th>
-                                <td>{{ $monev->nilai_investasi }}</td>
+                                <td>Rp {{ number_format($monev->nilai_investasi, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
                                 <th>Jumlah Tenaga Kerja Asing</th>

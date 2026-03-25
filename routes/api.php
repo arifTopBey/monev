@@ -36,7 +36,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::put('/pembinaan/realisasi/{id}', [PembinaanApiController::class, 'updateStatusPembinaan'])->name('api.pembinaan.realisasi.status.update');
 
-    Route::get('/monev', [MonevApiController::class, 'index'])->name('monev.list');
+    Route::get('/monev', [MonevApiController::class, 'index'])->name('api.monev.list');
+    Route::post('/monev/create', [MonevApiController::class, 'store'])->name('api.monev.store');
     Route::get('/monev/paginasi', [MonevApiController::class, 'getAllPaginate'])->name('api.monev.paginate');
     Route::get('/monev/{id_bap}', [MonevApiController::class, 'show'])->name('api.monev.show');
 
@@ -57,6 +58,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::get('/monev/edit-foto/{id_bap}', [MonevApiController::class, 'showEditFoto'])->name('api.monev.foto');
     Route::put('/monev/update-foto/{id_bap}', [MonevApiController::class, 'updateFoto'])->name('api.monev.update.foto');
+
+    Route::delete('/monev/delete/{id_bap}', [MonevApiController::class, 'destroy'])->name('api.monev.destroy');
 
     // foto private
     Route::get('/v1/foto/{filename}',[MonevApiController::class, 'photoApi'])->where('path', '.*');

@@ -141,6 +141,26 @@
                             </li>
                         </ul>
                     </li>
+                
+                @if (auth()->user()->role_id === 1)
+                    <li class="nav-item {{ Request::is('users*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('users*') ? 'active bg-black' : '' }}">
+                            <i class="bi bi-people-fill"></i>
+                            <p>
+                                Users
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('super.user.list') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p>Daftar Pengguna</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">

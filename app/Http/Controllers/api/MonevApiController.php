@@ -69,9 +69,22 @@ class MonevApiController extends Controller
          try{
 
             $monev = $this->monevInterface->getAllPaginate($validated['search']  ?? null, $validated['row_per_page'] ?? 10);
-            $monev->foto_lapangan_url = $monev->foto_lapangan ? url('api/v1/foto/' . $monev->foto_lapangan) : null;
-            $monev->foto_lapangan2_url = $monev->foto_lapangan2 ? url('api/v1/foto/' . $monev->foto_lapangan2) : null;
-            $monev->foto_lapangan2_url = $monev->foto_lapangan2 ? url('api/v1/foto/' . $monev->foto_lapangan3) : null;
+
+             foreach ($monev as $item) {
+
+                    $item->foto_lapangan_url = $item->foto_lapangan
+                        ? url('api/v1/foto/' . $item->foto_lapangan)
+                        : null;
+
+                    $item->foto_lapangan2_url = $item->foto_lapangan2
+                        ? url('api/v1/foto/' . $item->foto_lapangan2)
+                        : null;
+
+                    $item->foto_lapangan3_url = $item->foto_lapangan3
+                        ? url('api/v1/foto/' . $item->foto_lapangan3)
+                        : null;
+                }
+           
             return ResponseHelper::jsonResponse(true, 'Berhasil mengambil data monev',   PaginateResource::make($monev, MonevResource::class), 200);
 
          }catch(Exception $exception){
@@ -214,7 +227,7 @@ class MonevApiController extends Controller
          }
     }
 
-    public function updateHasilKesimpulan(UpdateMonevUmumRequest $request, $id_bap){
+    public function updateHasilKesimpulan(UpdateKesimpulanRequest $request, $id_bap){
 
         $validated = $request->validated();
 

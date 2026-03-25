@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             guests: '/', // Ubah ke path yang kamu inginkan
             users: '/dashboard' // Tujuan redirect jika user SUDAH login tapi coba akses halaman login
         );
+
+        $middleware->alias([
+            'admin_only' => \App\Http\Middleware\CheckRoleAdmin::class,
+         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

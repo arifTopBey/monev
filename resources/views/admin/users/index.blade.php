@@ -6,36 +6,17 @@
                  <div class="col-md-12">
                      <div class="d-flex border justify-content-between py-3 px-2 mt-3 bg-white rounded-3">
                          <div class="">
-                             <h4>Monev List</h4>
+                             <h4>Daftar Pengguna</h4>
                          </div>
                          <div class="d-flex gap-2">
-                            <a href="{{ route('monev.create') }}" class="btn btn-success fw-bold">+ Tambah Monev Singkat</a>
-                             <a href="{{ route('monev.export') }}" class="btn btn-success px-3 py-1 fw-bold">Eksport Excel</a>
+                            <a href="{{ route('super.user.create') }}" class="btn btn-success fw-bold">+ Tambah Pengguna</a>
                          </div>
                      </div>
                  </div>
              </div>
              <div class="row mt-3 border bg-white rounded-3 py-3 px-2">
 
-                  <form class="d-flex gap-2" action="{{ route('monev') }}" method="get">
-                        <div class="col-md-3">
-                            <label class="form-label">Date From:</label>
-                            <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-control">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Date To:</label>
-                                <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-control">
-                        </div>
-                        <div class="col-md-3 my-auto  py-3">
-                            <button type="sumbit" class="btn btn-info text-white mt-3">
-                                Submit
-                            </button>
-                            <a href="{{ route('monev') }}" class="btn btn-danger mt-3">
-                                Reset
-                            </a>
-                        </div>
-                </form>
-
+                
              </div>
 
              <!-- search form and pagination -->
@@ -56,18 +37,15 @@
                         </select>
                          <span class="ms-2">Entries</span>
                      </div>
-                     {{-- <div class="d-flex">
-                        <span class="mt-1 me-1">Seach: </span>
-                        <input type="text" class="form-control ">
-                    </div> --}}
-                     <form action="{{ route('monev') }}" method="GET">
+                    
+                     <form action="{{ route('super.user.list') }}" method="GET">
                          <div class="d-flex">
                              <span class="mt-1 me-1">Search:</span>
                              <input type="text" name="search" class="form-control form-control-sm"
-                                 placeholder="Cari nama perusahaan..." value="{{ request('search') }}">
+                                 placeholder="Cari nama pengguna" value="{{ request('search') }}">
                              <button type="submit" class="btn btn-primary btn-sm ms-2">Cari</button>
                              @if (request('search'))
-                                 <a href="{{ route('monev') }}" class="btn btn-secondary btn-sm ms-1">Reset</a>
+                                 <a href="{{ route('super.user.list') }}" class="btn btn-secondary btn-sm ms-1">Reset</a>
                              @endif
                          </div>
                      </form>
@@ -76,36 +54,52 @@
                      <table id="dataTable" class="table table-striped table-bordered">
                         <thead class="table-light">
                             <tr>
-                                <th>Tgl BAP</th>
-                                <th>Nama Perusahaan</th>
+                                <th>No</th>
+                                <th>Nama Pengguna</th>
+                                <th>Email</th>
+                                <th>Role Pengguna</th>
                                 <th>Aksi</th>
-
                             </tr>
                         </thead>
                         <tbody>
-                         @foreach ($data as $monev )
+                        @foreach ($data as $users )
+                            
                             <tr>
-                                <td>{{ $monev->tanggal_bap }}</td>
-                                <td>{{ strtoupper($monev->nama_perusahaan) }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $users->firstname }} {{ $users->lastname }}</td>
+                                <td>{{ $users->email }}</td>
+                                <td class="d-flex justify-content-center ">
+                                @if ($users->role_id ===1 )
+                                    <span class="badge rounded-pill text-bg-info text-white py-2 px-2">Super Admin</span>
+
+                                @elseif($users->role_id === 2)
+                                    
+                                    <span class="badge rounded-pill text-bg-success text-white py-2 px-2 mt-2">Admin</span>
+                                @elseif($users->role_id === 3)
+                                    
+                                    <span class="badge rounded-pill text-bg-secondary text-white py-2 px-2 mt-2">Back Office Pengendalian</span>
+                                @elseif($users->role_id === 4)
+                                    <span class="badge rounded-pill text-bg-warning text-white py-2 px-2 mt-2">Kepala Seksi Pengendalian</span>
+                                @elseif($users->role_id === 5)
+                                    <span class="badge rounded-pill text-bg-danger text-white py-2 px-2 mt-2">Kepala Bidang Pengendalian</span>
+                                @endif
+                                </td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <a href="{{ route('admin.monev.detail', $monev->id_bap) }}" class="btn btn-info">👁️</a>
-                                        <form id="delete-form-{{ $monev->id_bap }}"
-                                             action="{{ route('admin.monev.destroy', $monev->id_bap) }}"
+                                        <a href="{{ route('super.user.detail', $users->id) }}" class="btn btn-info">👁️</a>
+                                        <form id="delete-form-{{ $users->id }}"
+                                             action="{{ route('super.user.delete', $users->id) }}"
                                              method="post">
                                              @csrf
                                              @method('delete')
                                              <button
-                                                 onclick="confirmDelete('{{ $monev->id_bap }}', '{{ $monev->nama_perusahaan }}')"
+                                                onclick="confirmDelete('{{ $users->id }}', '{{ $users->username }}')"
                                                  type="button" class="btn btn-sm btn-danger">
                                                  🗑
                                              </button>
                                          </form>
-                                        {{-- <a href="" class="btn btn-danger">🗑</a> --}}
-                                        <a href="{{ route('admin.monev.download.word', $monev->id_bap) }}" class="btn btn-info">📇</a>
                                     </div>
                                 </td>
-
                             </tr>
                          @endforeach
 

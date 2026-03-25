@@ -16,6 +16,7 @@ use App\Interface\StandartProductInterface;
 use App\Interface\StandartUsahaInterface;
 use App\Interface\TenagaKerjaInterface;
 use App\Interface\TimMonitoringInterface;
+use App\Interface\UserInterface;
 use App\Repository\MonevRepositoryInterface;
 use App\Repository\PembinaanRepositoryInterface;
 use App\Repository\AgendaRepositoryInterface;
@@ -30,6 +31,7 @@ use App\Repository\StandartProductRepositoryInterface;
 use App\Repository\StandartUsahaRepositoryInterface;
 use App\Repository\TenagaKerjaRepositoryInterface;
 use App\Repository\TimMonitoringRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -53,7 +55,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(RencanaRealisasiInterface::class, RencanaRealisasiRepositoryInterface::class);
         $this->app->bind(TimMonitoringInterface::class, TimMonitoringRepositoryInterface::class);
         $this->app->bind(AuthIterface::class, AuthRepositoryInterface::class);
-
+        $this->app->bind(UserInterface::class, UserRepositoryInterface::class);
     }
 
     /**

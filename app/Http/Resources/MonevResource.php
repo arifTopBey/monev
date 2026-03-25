@@ -31,7 +31,7 @@ class MonevResource extends JsonResource
             'npwp' => $this->npwp,
             'nama_pemimpin_perusahaan' => $this->nama_pemimpin_perusahaan,
             'nilai_investasi' => $this->nilai_investasi,
-            'jumlah_tenaga_kerja_asing' => $this->jumlah_tenaga_kerja,
+            'jumlah_tenaga_kerja_asing' => $this->jumlah_tenaga_kerja_asing,
             'jumlah_tenaga_kerja_indonesia' => $this->jumlah_tenaga_kerja_indonesia,
             'aspek_lingkungan' => $this->aspek_lingkungan,
             'kelengkapan_legalitas' => $this->kelengkapan_legalitas,
