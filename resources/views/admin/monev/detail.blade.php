@@ -75,7 +75,9 @@
                             </tr>
                             <tr>
                                 <th>Nilai Investasi</th>
-                                <td>Rp {{ number_format($monev->nilai_investasi, 0, ',', '.') }}</td>
+                                <td>
+                                     Rp {{ $monev->nilai_investasi ? number_format((float) $monev->nilai_investasi, 0, ',', '.') : '0' }}
+                                </td>
                             </tr>
                             <tr>
                                 <th>Jumlah Tenaga Kerja Asing</th>
@@ -126,7 +128,7 @@
                     <div class="row">
                         @if ($monev->foto_lapangan)
                         <div class="col-md-6 mb-3">
-                            <img style="height: 180px; width: 180px;" src="{{ route('showFoto.private', $monev->foto_lapangan) }}"
+                            <img style="height: 180px; width: 180px;" src="{{ route('showFoto.private',  $monev->foto_lapangan) }}"
                                 class="img-fluid rounded shadow-sm" alt="Foto Lokasi 1">
                         </div>
                         @else

@@ -14,6 +14,7 @@ use App\Http\Controllers\api\StandartProductApiController;
 use App\Http\Controllers\api\StandartUsahaApiController;
 use App\Http\Controllers\api\TenagaKerjaApiController;
 use App\Http\Controllers\api\TimMonitoringApiController;
+use App\Http\Controllers\api\UserApiController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -83,4 +84,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::post('/logout', [AuthApiController::class, 'logout'])->name('api.auth.logout');
     
+     Route::middleware(['admin_only'])->group(function(){
+        Route::get('/users', [UserApiController::class, 'index'])->name('api.super.user.list');
+        Route::post('/users/store', [UserApiController::class, 'store'])->name('api.super.user.store');
+        Route::get('/users/{id}', [UserApiController::class, 'show'])->name('api.super.user.detail');
+        Route::put('/users/edit/{id}', [UserApiController::class, 'update'])->name('api.super.user.update');
+        Route::delete('/users/delete/{id}', [UserApiController::class, 'destroy'])->name('api.super.user.delete');
+   });
 });

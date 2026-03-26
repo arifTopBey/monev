@@ -57,4 +57,10 @@ class User extends Authenticatable
                     ->orWhere('lastname', 'like', "%{$search}%")
                     ->orWhere('username', 'like', "%{$search}%");
     }
+
+    public function role(){
+
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+
+    }
 }

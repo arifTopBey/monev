@@ -363,22 +363,128 @@ class MonevController extends Controller
 
         //  $filePath = 'private/uploads/' . $path;
 
-        $filePath = '';
+        // $filePath = '';
 
-            if (str_contains($path, 'uploads/')) {
-                $filePath = $path;
-            } else {
+        //     if (str_contains($path, 'uploads/')) {
+        //         $filePath = $path;
+        //     } else {
                 
-                $filePath = '/uploads/' . $path;
-            }
+        //         $filePath = '/uploads/' . $path;
+        //     }
 
-        //  yang di dalam exits it path
-        if (!Storage::disk('local')->exists($filePath)) {
-            abort(404);
+        // //  yang di dalam exits it path
+        // if (!Storage::disk('local')->exists($filePath)) {
+        //     abort(404);
+        // }
+
+        // return Storage::disk('local')->response($filePath);
+
+        // 1. Bersihkan path dari karakter aneh atau double slash
+    // Decode jika path mengandung karakter spesial (seperti spasi atau simbol)
+         $path = rawurldecode($path);
+
+        // 2. Pastikan path tidak dimulai dengan '/' agar tidak dianggap absolute path oleh disk
+        $cleanPath = ltrim($path, '/');
+
+        // 3. Logika pengecekan 'uploads/'
+        if (!str_contains($cleanPath, 'uploads/')) {
+            $cleanPath = 'uploads/' . $cleanPath;
         }
 
-        return Storage::disk('local')->response($filePath);
+        // DEBUG: Uncomment baris di bawah ini jika masih error untuk cek path yang dicari Laravel
+        // dd(Storage::disk('local')->path($cleanPath));
+
+        if (!Storage::disk('local')->exists($cleanPath)) {
+            // Jika tidak ada, coba cek apakah file tersebut ada di folder public (opsional jika migrasi belum selesai)
+            abort(404, 'File tidak ditemukan di path: ' . $cleanPath);
+        }
+
+        return Storage::disk('local')->response($cleanPath);
     }
+
+    public function showFoto2($path) {
+    $path = rawurldecode($path); // Menangani spasi dan karakter khusus
+    $filePath = ltrim($path, '/');
+
+    if (!str_contains($filePath, 'uploads/')) {
+        $filePath = 'uploads/' . $filePath;
+    }
+
+    // DEBUGGING: Jika file tidak ditemukan, kita ingin tahu Laravel nyari ke mana
+    if (!Storage::disk('local')->exists($filePath)) {
+        // Ini akan memunculkan pesan error yang jelas di browser/network tab
+        return response()->json([
+            'error' => 'File tidak ada',
+            'path_yang_dicari' => $filePath,
+            'lokasi_full' => Storage::disk('local')->path($filePath),
+            'cek_apakah_file_ada_fisik' => file_exists(Storage::disk('local')->path($filePath))
+        ], 404);
+    }
+
+    return Storage::disk('local')->response($filePath);
+    }
+    public function showFoto3($path) {
+    // 1. Decode URL dan hapus spasi di awal/akhir
+    $path = trim(rawurldecode($path));
+
+    // 2. Bersihkan path dari slash di awal agar tidak kacau
+    $cleanPath = ltrim($path, '/');
+
+    // 3. Logic penyesuaian path
+    // Kita pastikan path-nya mengarah ke 'private/uploads/namafile.jpg'
+    if (!str_contains($cleanPath, 'private/uploads/')) {
+        // Jika di DB cuma 'uploads/foto.jpg'
+        if (str_contains($cleanPath, 'uploads/')) {
+            $filePath = 'private/' . $cleanPath;
+        } 
+        // Jika di DB cuma 'namafile.jpg'
+        else {
+            $filePath = 'private/uploads/' . $cleanPath;
+        }
+    } else {
+        $filePath = $cleanPath;
+    }
+
+    // DEBUG ULANG (Jika masih error)
+    if (!Storage::disk('local')->exists($filePath)) {
+        return response()->json([
+            'status' => 'Gagal',
+            'pesan' => 'File fisik tidak ditemukan di folder storage',
+            'path_db' => $path,
+            'path_laravel_cari' => $filePath,
+            'lokasi_absolut' => Storage::disk('local')->path($filePath),
+        ], 404);
+    }
+
+    return Storage::disk('local')->response($filePath);
+}
+public function showFoto4($path) {
+    // 1. Decode agar spasi di nama file WhatsApp tidak jadi %20
+    $path = rawurldecode($path);
+
+    // 2. Buang semua prefix yang mungkin ada agar kita dapat nama filenya saja
+    // Kita bersihkan 'private/' atau 'uploads/' jika terbawa dari DB
+    $cleanName = str_replace(['private/', 'uploads/'], '', $path);
+    $cleanName = ltrim($cleanName, '/'); // Buang slash di depan jika ada
+
+    // 3. Susun path standar yang baru
+    $finalPath = 'private/uploads/' . $cleanName;
+
+    // 4. Cek di storage
+    if (!Storage::disk('local')->exists($finalPath)) {
+        // Jika masih tidak ada, kita coba cek kemungkinan tanpa 'private/' 
+        // (siapa tahu strukturnya berbeda)
+        $altPath = 'uploads/' . $cleanName;
+        
+        if (Storage::disk('local')->exists($altPath)) {
+            return Storage::disk('local')->response($altPath);
+        }
+
+        abort(404, "File tidak ditemukan: " . $finalPath);
+    }
+
+    return Storage::disk('local')->response($finalPath);
+}   
     // ========== batas foto private ==========
 
     // ============  path dari ci ke larave   ===============

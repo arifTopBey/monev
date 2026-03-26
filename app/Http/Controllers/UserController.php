@@ -86,7 +86,6 @@ class UserController extends Controller
 
     public function destroy(int $id){
 
-
          try{
 
             $this->userInterface->delete($id);
@@ -96,6 +95,5 @@ class UserController extends Controller
          }catch(Exception $exception){
                 return back()->withErrors(['error' => 'Gagal menghapus data: ' . $exception->getMessage()]);
          }
-
     }
 }

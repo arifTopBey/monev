@@ -53,7 +53,6 @@ class MonevApiController extends Controller
          }catch(Exception $exception){
 
             return ResponseHelper::jsonResponse(false, $exception->getMessage(), null, 500);
-
          }
 
     }
@@ -119,8 +118,7 @@ class MonevApiController extends Controller
                 return ResponseHelper::jsonResponse(false, 'Data Monev tidak ditemukan', null, 404);
             }
 
-            // Tambahkan URL akses ke properti objek
-            // Kita gunakan helper url() untuk membuat link lengkap
+           
             $monev->foto_lapangan_url = $monev->foto_lapangan ? url('api/v1/foto/' . $monev->foto_lapangan) : null;
             $monev->foto_lapangan2_url = $monev->foto_lapangan2 ? url('api/v1/foto/' . $monev->foto_lapangan2) : null;
             $monev->foto_lapangan3_url = $monev->foto_lapangan3 ? url('api/v1/foto/' . $monev->foto_lapangan3) : null;
