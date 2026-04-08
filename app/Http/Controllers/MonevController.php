@@ -100,7 +100,6 @@ class MonevController extends Controller
         return view('admin.monev.detail', compact('monev'));
     }
 
-
     #nanti pake id
     public function showKeteranganUmum($id_bap){
 
@@ -359,7 +358,7 @@ class MonevController extends Controller
     }
 
     // ========== foto private ===============
-    public function showFoto($path){
+    public function showFoto1($path){    
 
         //  $filePath = 'private/uploads/' . $path;
 
@@ -380,11 +379,12 @@ class MonevController extends Controller
         // return Storage::disk('local')->response($filePath);
 
         // 1. Bersihkan path dari karakter aneh atau double slash
-    // Decode jika path mengandung karakter spesial (seperti spasi atau simbol)
+        // Decode jika path mengandung karakter spesial (seperti spasi atau simbol)
          $path = rawurldecode($path);
 
         // 2. Pastikan path tidak dimulai dengan '/' agar tidak dianggap absolute path oleh disk
         $cleanPath = ltrim($path, '/');
+        dd($cleanPath, Storage::disk('local')->path($cleanPath));
 
         // 3. Logika pengecekan 'uploads/'
         if (!str_contains($cleanPath, 'uploads/')) {
@@ -458,7 +458,7 @@ class MonevController extends Controller
 
     return Storage::disk('local')->response($filePath);
 }
-public function showFoto4($path) {
+    public function showFoto4($path) {
     // 1. Decode agar spasi di nama file WhatsApp tidak jadi %20
     $path = rawurldecode($path);
 
@@ -484,7 +484,54 @@ public function showFoto4($path) {
     }
 
     return Storage::disk('local')->response($finalPath);
-}   
+    }
+    
+    public function showFoto5($path){
+        // decode karakter spesial
+    $path = rawurldecode($path);
+
+    // hilangkan slash di depan
+    $path = ltrim($path, '/');
+
+    // jika database hanya menyimpan nama file
+    // paksa masuk ke folder uploads
+    if (!str_contains($path, 'uploads/')) {
+        $path = 'uploads/' . $path;
+    }
+
+    // path final di storage
+    $filePath = $path;
+
+    // debug jika perlu
+    // dd(Storage::disk('local')->path($filePath));
+
+    if (!Storage::disk('local')->exists($filePath)) {
+        abort(404, 'File tidak ditemukan: ' . $filePath);
+    }
+
+    return Storage::disk('local')->response($filePath);
+    }
+
+    public function showFoto($path)
+{
+    $path = rawurldecode($path);
+    $path = trim($path);
+    $path = ltrim($path, '/');
+
+    $possiblePaths = [
+        $path,                 // private/nama_file.jpg
+        'uploads/' . $path,    // private/uploads/nama_file.jpg (jika nanti ada)
+        'upload/' . $path      // antisipasi dari CI
+    ];
+
+    foreach ($possiblePaths as $filePath) {
+        if (Storage::disk('local')->exists($filePath)) {
+            return Storage::disk('local')->response($filePath);
+        }
+    }
+
+    abort(404, 'File tidak ditemukan: ' . $path);
+}
     // ========== batas foto private ==========
 
     // ============  path dari ci ke larave   ===============
